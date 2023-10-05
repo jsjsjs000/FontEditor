@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Windows.Forms;
 
 namespace FontEditor
@@ -16,11 +17,12 @@ namespace FontEditor
 
 			this.Text = Program.ProgramName +
 					" v" + Program.ProgramVersionMajor + "." + Program.ProgramVersionMinor;
-					//+ "." + Program.ProgramVersionBuild + "." + Program.ProgramVersionRevision + " " +
-					//Program.ProgramBuildDateTime;
+			//+ "." + Program.ProgramVersionBuild + "." + Program.ProgramVersionRevision + " " +
+			//Program.ProgramBuildDateTime;
 
 			nudWidth.Value = 16;
 			nudHeight.Value = 16;
+			cbColors.SelectedIndex = 0;
 
 			logoEditor.data = new ulong[255];
 			logoEditor.ButtonClearText = "Clear";
@@ -29,14 +31,26 @@ namespace FontEditor
 			logoEditor.UpdatePreview();
 			logoEditor.UpdateControlSize();
 
+			int i = -1;
+			using (InstalledFontCollection collection = new InstalledFontCollection())
+				foreach (FontFamily family in collection.Families)
+				{
+					cbFonts.Items.Add(family.Name);
+					if (i == -1 && (family.Name == "Tahoma" || family.Name == "Verdana" || family.Name == "Ubuntu"))
+						i = cbFonts.Items.Count - 1;
+				}
+			if (i >= 0)
+				cbFonts.SelectedIndex = i;
+			cbFontSize.SelectedIndex = 6;
+
 			ClearAll();
 
-			// GenerateFontChars("Ag");
-			// GenerateFontChars("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
-			GenerateFontChars(" !\"#$%&'()*+,-./0123456789:/<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[ ]^_`abcdefghijklmnopqrstuvwxyz |}~ ");
+			string Chars = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ";
+			Chars += "ąćęłńóśżźĄĆĘŁŃÓŚŻŹ";
+			tbGenerateChars.Text = Chars;
 
-			this.MinimumSize = new Size(this.Width, this.Height);
-			this.MaximumSize = new Size(this.Width, ushort.MaxValue);
+			//this.MinimumSize = new Size(this.Width, this.Height);
+			//this.MaximumSize = new Size(this.Width, ushort.MaxValue);
 		}
 
 		void ClearAll()
@@ -49,7 +63,7 @@ namespace FontEditor
 			listBox.SelectedIndex = 0;
 		}
 
-		private void nudWidth_ValueChanged(object sender, EventArgs e)
+		private void NudWidth_ValueChanged(object sender, EventArgs e)
 		{
 			Sign.SignWidth = (int)nudWidth.Value;
 			logoEditor.RecreatePreviewPictures();
@@ -57,7 +71,7 @@ namespace FontEditor
 			logoEditor.UpdateControlSize();
 		}
 
-		private void nudHeight_ValueChanged(object sender, EventArgs e)
+		private void NudHeight_ValueChanged(object sender, EventArgs e)
 		{
 			Sign.SignHeight = (int)nudHeight.Value;
 			logoEditor.RecreatePreviewPictures();
@@ -73,7 +87,7 @@ namespace FontEditor
 				logoEditor.PasteFromClipboard();
 		}
 
-		private void listBox_SelectedIndexChanged(object sender, EventArgs e)
+		private void ListBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (!canUpdateControls)
 				return;
@@ -87,7 +101,7 @@ namespace FontEditor
 			canUpdateControls = true;
 		}
 
-		private void textBoxName_TextChanged(object sender, EventArgs e)
+		private void TextBoxName_TextChanged(object sender, EventArgs e)
 		{
 			if (!canUpdateControls)
 				return;
@@ -99,7 +113,7 @@ namespace FontEditor
 			canUpdateControls = true;
 		}
 
-		private void buttonAdd_Click(object sender, EventArgs e)
+		private void ButtonAdd_Click(object sender, EventArgs e)
 		{
 			FontItem item = new FontItem() { name = FontItem.NewString };
 			items.Add(item);
@@ -107,7 +121,7 @@ namespace FontEditor
 			listBox.SelectedIndex = listBox.Items.Count - 1;
 		}
 
-		private void buttonRemove_Click(object sender, EventArgs e)
+		private void ButtonRemove_Click(object sender, EventArgs e)
 		{
 			if (listBox.Items.Count <= 1)
 				return;
@@ -137,13 +151,22 @@ namespace FontEditor
 			}
 		}
 
-		private void buttonLoadAll_Click(object sender, EventArgs e)
+		private void ButtonLoadAll_Click(object sender, EventArgs e)
 		{
 			canUpdateControls = false;
 
 			RemoveAllNewItems();
 
-			string s = Clipboard.GetText();
+			string s = "";
+			try
+			{
+				s = Clipboard.GetText();
+			}
+			catch
+			{
+				Console.WriteLine("Can't read from clipboard.");
+			}
+
 			string[] lines = s.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 			if (lines.Length > 1 && lines[0].Contains("\t// @"))
 			{
@@ -160,16 +183,16 @@ namespace FontEditor
 				foreach (string line_ in lines)
 				{
 					string line = line_.Trim();
-					if (line.IndexOf("// @") == 0)
+					if (line.IndexOf("// @", StringComparison.CurrentCulture) == 0)
 					{
 						name = "";
 						int i = line.IndexOf('\'');
 						if (i > 0)
 							name = line[i + 1].ToString();
 					}
-					else if (line.IndexOf(", // ") > 0)
+					else if (line.IndexOf(", // ", StringComparison.CurrentCulture) > 0)
 					{
-						int c = line.IndexOf(", // ");
+						int c = line.IndexOf(", // ", StringComparison.CurrentCulture);
 						line = line.Substring(0, c);
 						line.Split(',');
 
@@ -207,7 +230,7 @@ namespace FontEditor
 			listBox.SelectedIndex = listBox.Items.Count - 1;
 		}
 
-		private void buttonSaveTo_Click(object sender, EventArgs e)
+		private void ButtonSaveTo_Click(object sender, EventArgs e)
 		{
 			bool python = cbPythonMode.Checked;
 			bool brackets = cbArrayBrackets.Checked;
@@ -231,10 +254,18 @@ namespace FontEditor
 				else
 					s += ", // " + item.name + Environment.NewLine;
 			}
-			Clipboard.SetText(s);
+
+			try
+			{
+				Clipboard.SetText(s);
+			}
+			catch
+			{
+				Console.WriteLine("Can't write to clipboard.");
+			}
 		}
 
-		private void buttonClearAll_Click(object sender, EventArgs e)
+		private void ButtonClearAll_Click(object sender, EventArgs e)
 		{
 			ClearAllWithQuestion();
 		}
@@ -249,55 +280,105 @@ namespace FontEditor
 			return true;
 		}
 
-		void GenerateFontChars(string chars)
+		void GenerateFontChars(string fontFamily, float fontSize, bool bold, bool italic, int offsetY,
+				bool fontInterpolate, byte limit, string chars)
 		{
-			canUpdateControls = false;
-
+			ClearAll();
 			RemoveAllNewItems();
 
 			Bitmap bitmap = new Bitmap(128, 128);
 			Graphics graphic = Graphics.FromImage(bitmap);
-			//graphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bicubic;
-			//graphic.TextContrast = 0;
-			//graphic.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+			if (fontInterpolate)
+			{
+				graphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bicubic;
+				graphic.TextContrast = 0;
+				graphic.TextRenderingHint = TextRenderingHint.AntiAlias;
+			}
 
-			Font font = new Font("Ubuntu", 14);
-			Point offset = new Point(0, -4);
+			FontStyle fontStyle = FontStyle.Regular;
+			if (bold)
+			{
+				fontStyle |= FontStyle.Bold;
+				fontStyle &= ~FontStyle.Regular;
+			}
+			if (italic)
+			{
+				fontStyle |= FontStyle.Italic;
+				fontStyle &= ~FontStyle.Regular;
+			}
+			Font font = new Font(fontFamily, fontSize, fontStyle);
+			Point offset = new Point(0, offsetY);
 
 			foreach (char c in chars)
 			{
-				FontItem item = new FontItem { name = c.ToString() };
+				FontItem item = new FontItem
+				{
+					name = string.Format("{0} - {1} 0x{2:x2}", c.ToString(), (uint)c, (uint)c),
+				};
 				Array.Resize(ref item.data, 255);
 				items.Add(item);
 				listBox.Items.Add(item);
-				GenerateFontChar(font, graphic, bitmap, item, c, offset);
+				GenerateFontChar(font, graphic, bitmap, item, offset, limit, c);
 			}
 
 			font.Dispose();
 			graphic.Dispose();
 			bitmap.Dispose();
-			canUpdateControls = true;
-
-			if (listBox.Items.Count > 0)
-				listBox.SelectedIndex = listBox.Items.Count - 1;
 		}
 
-		void GenerateFontChar(Font font, Graphics graphics, Bitmap bitmap, FontItem item, char c, Point offset)
+		void GenerateFontChar(Font font, Graphics graphics, Bitmap bitmap, FontItem item, Point offset, byte limit, char c)
 		{
 			graphics.FillRectangle(Brushes.Black, 0, 0, bitmap.Width, bitmap.Height);
 			graphics.DrawString(c.ToString(), font, Brushes.White, offset);
 
-			for (int y = 0; y < 16; y++)
-				for (int x = 0; x < 16; x++)
-					if (bitmap.GetPixel(x, y).R >= 0x7f)
+			for (int y = 0; y < Sign.SignHeight; y++)
+				for (int x = 0; x < Sign.SignWidth; x++)
+					if (bitmap.GetPixel(x, y).R >= limit)
 						item.data[y] |= 1U << (16 - 1 - x);
+
+			TrimCharLeft(item.data);
+		}
+
+		void TrimCharLeft(ulong[] data)
+		{
+			for (int y = 0; y < Sign.SignHeight; y++)
+				if (IsLineEmpty(data, 0))
+					ShiftLeft(data);
+		}
+
+		bool IsLineEmpty(ulong[] data, int x)
+		{
+			for (int y = 0; y < Sign.SignHeight; y++)
+				if (((data[y] >> (16 - 1 - x)) & 0x01) > 0)
+					return false;
+
+			return true;
+		}
+
+		void ShiftLeft(ulong[] data)
+		{
+			for (int y = 0; y < Sign.SignHeight; y++)
+				data[y] = data[y] << 1;
+		}
+
+		private void BtnGenerateFonts_Click(object sender, EventArgs e)
+		{
+			int i = listBox.SelectedIndex;
+			canUpdateControls = false;
+
+			GenerateFontChars(cbFonts.Text, float.Parse(cbFontSize.Text), cbBold.Checked, cbItalic.Checked,
+					(int)nudOffsetY.Value, cbFontInterpolate.Checked, (byte)nudLimit.Value, tbGenerateChars.Text);
+
+			canUpdateControls = true;
+			if (i >= 0 && i < listBox.Items.Count)
+				listBox.SelectedIndex = i;
+			else if (listBox.Items.Count > 0)
+				listBox.SelectedIndex = listBox.Items.Count - 1;
 		}
 	}
 }
 
 /*
-	button generate
-	text box chars
-	16 kolorów z krzywą gammy
-	interpolacja przy zapisie znaku
+	ilość kolorów 16 kolorów z krzywą gammy
+	button - interpolacja przy zapisie znaku
 */

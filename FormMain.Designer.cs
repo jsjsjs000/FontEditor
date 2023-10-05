@@ -34,7 +34,9 @@
 			this.kryptonLabel1 = new System.Windows.Forms.Label();
 			this.kryptonLabel2 = new System.Windows.Forms.Label();
 			this.cbArrayBrackets = new System.Windows.Forms.CheckBox();
+			this.cbPythonMode = new System.Windows.Forms.CheckBox();
 			this.cbAddFontWidthAtEnd = new System.Windows.Forms.CheckBox();
+			this.cbVerticalDataOrientation = new System.Windows.Forms.CheckBox();
 			this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
 			this.textBoxName = new System.Windows.Forms.TextBox();
 			this.buttonAdd = new System.Windows.Forms.Button();
@@ -43,16 +45,33 @@
 			this.buttonSaveTo = new System.Windows.Forms.Button();
 			this.buttonClearAll = new System.Windows.Forms.Button();
 			this.listBox = new System.Windows.Forms.ListBox();
+			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+			this.cbFonts = new System.Windows.Forms.ComboBox();
+			this.cbFontSize = new System.Windows.Forms.ComboBox();
+			this.cbBold = new System.Windows.Forms.CheckBox();
+			this.cbItalic = new System.Windows.Forms.CheckBox();
+			this.btnGenerateFonts = new System.Windows.Forms.Button();
+			this.label1 = new System.Windows.Forms.Label();
+			this.tbGenerateChars = new System.Windows.Forms.TextBox();
 			this.logoEditor = new FontEditor.SignEditorControl();
-			this.cbPythonMode = new System.Windows.Forms.CheckBox();
-			this.cbVerticalDataOrientation = new System.Windows.Forms.CheckBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.nudOffsetY = new System.Windows.Forms.NumericUpDown();
+			this.label3 = new System.Windows.Forms.Label();
+			this.labelLimit = new System.Windows.Forms.Label();
+			this.nudLimit = new System.Windows.Forms.NumericUpDown();
+			this.cbColors = new System.Windows.Forms.ComboBox();
+			this.cbFontInterpolate = new System.Windows.Forms.CheckBox();
+			((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel4.SuspendLayout();
+			this.flowLayoutPanel2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudOffsetY)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// nudWidth
 			// 
-			this.nudWidth.Location = new System.Drawing.Point(3, 23);
+			this.nudWidth.Location = new System.Drawing.Point(3, 16);
 			this.nudWidth.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
 			this.nudWidth.Maximum = new decimal(new int[] {
             32,
@@ -65,18 +84,18 @@
             0,
             0});
 			this.nudWidth.Name = "nudWidth";
-			this.nudWidth.Size = new System.Drawing.Size(54, 22);
+			this.nudWidth.Size = new System.Drawing.Size(54, 21);
 			this.nudWidth.TabIndex = 1;
 			this.nudWidth.Value = new decimal(new int[] {
             16,
             0,
             0,
             0});
-			this.nudWidth.ValueChanged += new System.EventHandler(this.nudWidth_ValueChanged);
+			this.nudWidth.ValueChanged += new System.EventHandler(this.NudWidth_ValueChanged);
 			// 
 			// nudHeight
 			// 
-			this.nudHeight.Location = new System.Drawing.Point(3, 71);
+			this.nudHeight.Location = new System.Drawing.Point(3, 56);
 			this.nudHeight.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
 			this.nudHeight.Maximum = new decimal(new int[] {
             32,
@@ -89,77 +108,101 @@
             0,
             0});
 			this.nudHeight.Name = "nudHeight";
-			this.nudHeight.Size = new System.Drawing.Size(54, 22);
+			this.nudHeight.Size = new System.Drawing.Size(54, 21);
 			this.nudHeight.TabIndex = 2;
 			this.nudHeight.Value = new decimal(new int[] {
             16,
             0,
             0,
             0});
-			this.nudHeight.ValueChanged += new System.EventHandler(this.nudHeight_ValueChanged);
+			this.nudHeight.ValueChanged += new System.EventHandler(this.NudHeight_ValueChanged);
 			// 
 			// flowLayoutPanel1
 			// 
+			this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.flowLayoutPanel1.AutoSize = true;
 			this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.flowLayoutPanel1.Controls.Add(this.kryptonLabel1);
 			this.flowLayoutPanel1.Controls.Add(this.nudWidth);
 			this.flowLayoutPanel1.Controls.Add(this.kryptonLabel2);
 			this.flowLayoutPanel1.Controls.Add(this.nudHeight);
+			this.flowLayoutPanel1.Controls.Add(this.label3);
+			this.flowLayoutPanel1.Controls.Add(this.cbColors);
 			this.flowLayoutPanel1.Controls.Add(this.cbArrayBrackets);
 			this.flowLayoutPanel1.Controls.Add(this.cbPythonMode);
 			this.flowLayoutPanel1.Controls.Add(this.cbAddFontWidthAtEnd);
 			this.flowLayoutPanel1.Controls.Add(this.cbVerticalDataOrientation);
 			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(424, 8);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(575, 8);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(147, 188);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(147, 215);
 			this.flowLayoutPanel1.TabIndex = 3;
 			// 
 			// kryptonLabel1
 			// 
+			this.kryptonLabel1.AutoSize = true;
 			this.kryptonLabel1.Location = new System.Drawing.Point(0, 3);
 			this.kryptonLabel1.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
 			this.kryptonLabel1.Name = "kryptonLabel1";
-			this.kryptonLabel1.Size = new System.Drawing.Size(46, 20);
+			this.kryptonLabel1.Size = new System.Drawing.Size(39, 13);
 			this.kryptonLabel1.TabIndex = 0;
 			this.kryptonLabel1.Text = "Width:";
 			// 
 			// kryptonLabel2
 			// 
-			this.kryptonLabel2.Location = new System.Drawing.Point(0, 51);
+			this.kryptonLabel2.AutoSize = true;
+			this.kryptonLabel2.Location = new System.Drawing.Point(0, 43);
 			this.kryptonLabel2.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
 			this.kryptonLabel2.Name = "kryptonLabel2";
-			this.kryptonLabel2.Size = new System.Drawing.Size(47, 20);
+			this.kryptonLabel2.Size = new System.Drawing.Size(42, 13);
 			this.kryptonLabel2.TabIndex = 2;
-			this.kryptonLabel2.Text = "Height";
+			this.kryptonLabel2.Text = "Height:";
 			// 
 			// cbArrayBrackets
 			// 
 			this.cbArrayBrackets.AutoSize = true;
-			this.cbArrayBrackets.Location = new System.Drawing.Point(3, 99);
+			this.cbArrayBrackets.Location = new System.Drawing.Point(3, 126);
 			this.cbArrayBrackets.Name = "cbArrayBrackets";
 			this.cbArrayBrackets.Size = new System.Drawing.Size(97, 17);
 			this.cbArrayBrackets.TabIndex = 3;
 			this.cbArrayBrackets.Text = "Array brackets";
 			this.cbArrayBrackets.UseVisualStyleBackColor = true;
 			// 
+			// cbPythonMode
+			// 
+			this.cbPythonMode.AutoSize = true;
+			this.cbPythonMode.Location = new System.Drawing.Point(3, 149);
+			this.cbPythonMode.Name = "cbPythonMode";
+			this.cbPythonMode.Size = new System.Drawing.Size(89, 17);
+			this.cbPythonMode.TabIndex = 4;
+			this.cbPythonMode.Text = "Python mode";
+			this.cbPythonMode.UseVisualStyleBackColor = true;
+			// 
 			// cbAddFontWidthAtEnd
 			// 
 			this.cbAddFontWidthAtEnd.AutoSize = true;
 			this.cbAddFontWidthAtEnd.Checked = true;
 			this.cbAddFontWidthAtEnd.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbAddFontWidthAtEnd.Location = new System.Drawing.Point(3, 145);
+			this.cbAddFontWidthAtEnd.Location = new System.Drawing.Point(3, 172);
 			this.cbAddFontWidthAtEnd.Name = "cbAddFontWidthAtEnd";
 			this.cbAddFontWidthAtEnd.Size = new System.Drawing.Size(131, 17);
-			this.cbAddFontWidthAtEnd.TabIndex = 4;
+			this.cbAddFontWidthAtEnd.TabIndex = 5;
 			this.cbAddFontWidthAtEnd.Text = "Add font width at end";
 			this.cbAddFontWidthAtEnd.UseVisualStyleBackColor = true;
 			// 
+			// cbVerticalDataOrientation
+			// 
+			this.cbVerticalDataOrientation.AutoSize = true;
+			this.cbVerticalDataOrientation.Location = new System.Drawing.Point(3, 195);
+			this.cbVerticalDataOrientation.Name = "cbVerticalDataOrientation";
+			this.cbVerticalDataOrientation.Size = new System.Drawing.Size(141, 17);
+			this.cbVerticalDataOrientation.TabIndex = 6;
+			this.cbVerticalDataOrientation.Text = "Vertical data orientation";
+			this.cbVerticalDataOrientation.UseVisualStyleBackColor = true;
+			// 
 			// flowLayoutPanel4
 			// 
-			this.flowLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.flowLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.flowLayoutPanel4.Controls.Add(this.textBoxName);
 			this.flowLayoutPanel4.Controls.Add(this.buttonAdd);
@@ -168,7 +211,7 @@
 			this.flowLayoutPanel4.Controls.Add(this.buttonSaveTo);
 			this.flowLayoutPanel4.Controls.Add(this.buttonClearAll);
 			this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.flowLayoutPanel4.Location = new System.Drawing.Point(567, 200);
+			this.flowLayoutPanel4.Location = new System.Drawing.Point(720, 262);
 			this.flowLayoutPanel4.Name = "flowLayoutPanel4";
 			this.flowLayoutPanel4.Size = new System.Drawing.Size(146, 168);
 			this.flowLayoutPanel4.TabIndex = 5;
@@ -179,75 +222,195 @@
 			this.textBoxName.Location = new System.Drawing.Point(3, 3);
 			this.textBoxName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.textBoxName.Name = "textBoxName";
-			this.textBoxName.Size = new System.Drawing.Size(140, 20);
+			this.textBoxName.Size = new System.Drawing.Size(140, 21);
 			this.textBoxName.TabIndex = 1;
-			this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
+			this.textBoxName.TextChanged += new System.EventHandler(this.TextBoxName_TextChanged);
 			// 
 			// buttonAdd
 			// 
 			this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonAdd.Location = new System.Drawing.Point(3, 26);
+			this.buttonAdd.Location = new System.Drawing.Point(3, 27);
 			this.buttonAdd.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.buttonAdd.Name = "buttonAdd";
 			this.buttonAdd.Size = new System.Drawing.Size(140, 25);
 			this.buttonAdd.TabIndex = 2;
 			this.buttonAdd.Text = "Add item";
-			this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+			this.buttonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
 			// 
 			// buttonRemove
 			// 
 			this.buttonRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonRemove.Location = new System.Drawing.Point(3, 54);
+			this.buttonRemove.Location = new System.Drawing.Point(3, 55);
 			this.buttonRemove.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.buttonRemove.Name = "buttonRemove";
 			this.buttonRemove.Size = new System.Drawing.Size(140, 25);
 			this.buttonRemove.TabIndex = 3;
 			this.buttonRemove.Text = "Remove item";
-			this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
+			this.buttonRemove.Click += new System.EventHandler(this.ButtonRemove_Click);
 			// 
 			// buttonLoadAll
 			// 
 			this.buttonLoadAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonLoadAll.Location = new System.Drawing.Point(3, 82);
+			this.buttonLoadAll.Location = new System.Drawing.Point(3, 83);
 			this.buttonLoadAll.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.buttonLoadAll.Name = "buttonLoadAll";
 			this.buttonLoadAll.Size = new System.Drawing.Size(140, 25);
 			this.buttonLoadAll.TabIndex = 4;
 			this.buttonLoadAll.Text = "Load all from clipboard";
-			this.buttonLoadAll.Click += new System.EventHandler(this.buttonLoadAll_Click);
+			this.buttonLoadAll.Click += new System.EventHandler(this.ButtonLoadAll_Click);
 			// 
 			// buttonSaveTo
 			// 
 			this.buttonSaveTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonSaveTo.Location = new System.Drawing.Point(3, 110);
+			this.buttonSaveTo.Location = new System.Drawing.Point(3, 111);
 			this.buttonSaveTo.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.buttonSaveTo.Name = "buttonSaveTo";
 			this.buttonSaveTo.Size = new System.Drawing.Size(140, 25);
 			this.buttonSaveTo.TabIndex = 5;
 			this.buttonSaveTo.Text = "Save all to clipboard";
-			this.buttonSaveTo.Click += new System.EventHandler(this.buttonSaveTo_Click);
+			this.buttonSaveTo.Click += new System.EventHandler(this.ButtonSaveTo_Click);
 			// 
 			// buttonClearAll
 			// 
 			this.buttonClearAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonClearAll.Location = new System.Drawing.Point(3, 138);
+			this.buttonClearAll.Location = new System.Drawing.Point(3, 139);
 			this.buttonClearAll.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.buttonClearAll.Name = "buttonClearAll";
 			this.buttonClearAll.Size = new System.Drawing.Size(140, 25);
 			this.buttonClearAll.TabIndex = 6;
 			this.buttonClearAll.Text = "Clear all";
-			this.buttonClearAll.Click += new System.EventHandler(this.buttonClearAll_Click);
+			this.buttonClearAll.Click += new System.EventHandler(this.ButtonClearAll_Click);
 			// 
 			// listBox
 			// 
 			this.listBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-			this.listBox.Location = new System.Drawing.Point(570, 8);
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.listBox.Location = new System.Drawing.Point(723, 8);
 			this.listBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.listBox.Name = "listBox";
-			this.listBox.Size = new System.Drawing.Size(140, 191);
+			this.listBox.Size = new System.Drawing.Size(140, 251);
 			this.listBox.TabIndex = 0;
-			this.listBox.SelectedIndexChanged += new System.EventHandler(this.listBox_SelectedIndexChanged);
+			this.listBox.SelectedIndexChanged += new System.EventHandler(this.ListBox_SelectedIndexChanged);
+			// 
+			// flowLayoutPanel2
+			// 
+			this.flowLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.flowLayoutPanel2.Controls.Add(this.cbFonts);
+			this.flowLayoutPanel2.Controls.Add(this.cbFontSize);
+			this.flowLayoutPanel2.Controls.Add(this.cbBold);
+			this.flowLayoutPanel2.Controls.Add(this.cbItalic);
+			this.flowLayoutPanel2.Controls.Add(this.label2);
+			this.flowLayoutPanel2.Controls.Add(this.nudOffsetY);
+			this.flowLayoutPanel2.Controls.Add(this.cbFontInterpolate);
+			this.flowLayoutPanel2.Controls.Add(this.labelLimit);
+			this.flowLayoutPanel2.Controls.Add(this.nudLimit);
+			this.flowLayoutPanel2.Controls.Add(this.btnGenerateFonts);
+			this.flowLayoutPanel2.Location = new System.Drawing.Point(8, 398);
+			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(706, 29);
+			this.flowLayoutPanel2.TabIndex = 6;
+			// 
+			// cbFonts
+			// 
+			this.cbFonts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbFonts.FormattingEnabled = true;
+			this.cbFonts.Location = new System.Drawing.Point(3, 3);
+			this.cbFonts.MaxDropDownItems = 16;
+			this.cbFonts.Name = "cbFonts";
+			this.cbFonts.Size = new System.Drawing.Size(200, 21);
+			this.cbFonts.TabIndex = 0;
+			// 
+			// cbFontSize
+			// 
+			this.cbFontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbFontSize.FormattingEnabled = true;
+			this.cbFontSize.Items.AddRange(new object[] {
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32"});
+			this.cbFontSize.Location = new System.Drawing.Point(289, 3);
+			this.cbFontSize.MaxDropDownItems = 16;
+			this.cbFontSize.Name = "cbFontSize";
+			this.cbFontSize.Size = new System.Drawing.Size(65, 21);
+			this.cbFontSize.TabIndex = 1;
+			// 
+			// cbBold
+			// 
+			this.cbBold.AutoSize = true;
+			this.cbBold.Location = new System.Drawing.Point(360, 6);
+			this.cbBold.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+			this.cbBold.Name = "cbBold";
+			this.cbBold.Size = new System.Drawing.Size(46, 17);
+			this.cbBold.TabIndex = 3;
+			this.cbBold.Text = "Bold";
+			this.cbBold.UseVisualStyleBackColor = true;
+			// 
+			// cbItalic
+			// 
+			this.cbItalic.AutoSize = true;
+			this.cbItalic.Location = new System.Drawing.Point(412, 6);
+			this.cbItalic.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+			this.cbItalic.Name = "cbItalic";
+			this.cbItalic.Size = new System.Drawing.Size(49, 17);
+			this.cbItalic.TabIndex = 4;
+			this.cbItalic.Text = "Italic";
+			this.cbItalic.UseVisualStyleBackColor = true;
+			// 
+			// btnGenerateFonts
+			// 
+			this.btnGenerateFonts.Location = new System.Drawing.Point(618, 2);
+			this.btnGenerateFonts.Margin = new System.Windows.Forms.Padding(3, 2, 3, 3);
+			this.btnGenerateFonts.Name = "btnGenerateFonts";
+			this.btnGenerateFonts.Size = new System.Drawing.Size(75, 23);
+			this.btnGenerateFonts.TabIndex = 2;
+			this.btnGenerateFonts.Text = "Generate";
+			this.btnGenerateFonts.UseVisualStyleBackColor = true;
+			this.btnGenerateFonts.Click += new System.EventHandler(this.BtnGenerateFonts_Click);
+			// 
+			// label1
+			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(12, 345);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(85, 13);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Generate chars:";
+			// 
+			// tbGenerateChars
+			// 
+			this.tbGenerateChars.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.tbGenerateChars.Location = new System.Drawing.Point(11, 361);
+			this.tbGenerateChars.Multiline = true;
+			this.tbGenerateChars.Name = "tbGenerateChars";
+			this.tbGenerateChars.Size = new System.Drawing.Size(700, 34);
+			this.tbGenerateChars.TabIndex = 1;
 			// 
 			// logoEditor
 			// 
@@ -263,54 +426,120 @@
 			this.logoEditor.Size = new System.Drawing.Size(410, 276);
 			this.logoEditor.TabIndex = 0;
 			// 
-			// cbPythonMode
+			// label2
 			// 
-			this.cbPythonMode.AutoSize = true;
-			this.cbPythonMode.Checked = true;
-			this.cbPythonMode.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbPythonMode.Location = new System.Drawing.Point(3, 122);
-			this.cbPythonMode.Name = "cbPythonMode";
-			this.cbPythonMode.Size = new System.Drawing.Size(89, 17);
-			this.cbPythonMode.TabIndex = 5;
-			this.cbPythonMode.Text = "Python mode";
-			this.cbPythonMode.UseVisualStyleBackColor = true;
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(464, 6);
+			this.label2.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(17, 13);
+			this.label2.TabIndex = 5;
+			this.label2.Text = "Y:";
 			// 
-			// cbVerticalDataOrientation
+			// nudOffsetY
 			// 
-			this.cbVerticalDataOrientation.AutoSize = true;
-			this.cbVerticalDataOrientation.Checked = true;
-			this.cbVerticalDataOrientation.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbVerticalDataOrientation.Location = new System.Drawing.Point(3, 168);
-			this.cbVerticalDataOrientation.Name = "cbVerticalDataOrientation";
-			this.cbVerticalDataOrientation.Size = new System.Drawing.Size(141, 17);
-			this.cbVerticalDataOrientation.TabIndex = 6;
-			this.cbVerticalDataOrientation.Text = "Vertical data orientation";
-			this.cbVerticalDataOrientation.UseVisualStyleBackColor = true;
+			this.nudOffsetY.Location = new System.Drawing.Point(484, 3);
+			this.nudOffsetY.Maximum = new decimal(new int[] {
+            32,
+            0,
+            0,
+            0});
+			this.nudOffsetY.Minimum = new decimal(new int[] {
+            32,
+            0,
+            0,
+            -2147483648});
+			this.nudOffsetY.Name = "nudOffsetY";
+			this.nudOffsetY.Size = new System.Drawing.Size(42, 21);
+			this.nudOffsetY.TabIndex = 6;
+			// 
+			// labelLimit
+			// 
+			this.labelLimit.AutoSize = true;
+			this.labelLimit.Location = new System.Drawing.Point(464, 6);
+			this.labelLimit.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+			this.labelLimit.Name = "labelLimit";
+			this.labelLimit.Size = new System.Drawing.Size(17, 13);
+			this.labelLimit.TabIndex = 5;
+			this.labelLimit.Text = "B/W limit:";
+			// 
+			// nudOffsetY
+			// 
+			this.nudLimit.Location = new System.Drawing.Point(484, 3);
+			this.nudLimit.Maximum = 255;
+			this.nudLimit.Minimum = 1;
+			this.nudLimit.Name = "nudLimit";
+			this.nudLimit.Size = new System.Drawing.Size(54, 21);
+			this.nudLimit.Value = 128;
+			this.nudLimit.TabIndex = 6;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(0, 83);
+			this.label3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(41, 13);
+			this.label3.TabIndex = 7;
+			this.label3.Text = "Colors:";
+			// 
+			// cbColors
+			// 
+			this.cbColors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbColors.FormattingEnabled = true;
+			this.cbColors.Items.AddRange(new object[] {
+            "2",
+            "4",
+            "8",
+            "16"});
+			this.cbColors.Location = new System.Drawing.Point(3, 99);
+			this.cbColors.MaxDropDownItems = 16;
+			this.cbColors.Name = "cbColors";
+			this.cbColors.Size = new System.Drawing.Size(54, 21);
+			this.cbColors.TabIndex = 8;
+			// 
+			// cbFontInterpolate
+			// 
+			this.cbFontInterpolate.AutoSize = true;
+			this.cbFontInterpolate.Location = new System.Drawing.Point(532, 6);
+			this.cbFontInterpolate.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+			this.cbFontInterpolate.Name = "cbFontInterpolate";
+			this.cbFontInterpolate.Size = new System.Drawing.Size(80, 17);
+			this.cbFontInterpolate.TabIndex = 7;
+			this.cbFontInterpolate.Text = "Interpolate";
+			this.cbFontInterpolate.UseVisualStyleBackColor = true;
 			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.Color.FromArgb(0xe0, 0xe0, 0xe0);
-			this.ClientSize = new System.Drawing.Size(716, 370);
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.ClientSize = new System.Drawing.Size(869, 432);
+			this.Controls.Add(this.tbGenerateChars);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.flowLayoutPanel2);
 			this.Controls.Add(this.listBox);
 			this.Controls.Add(this.flowLayoutPanel4);
 			this.Controls.Add(this.flowLayoutPanel1);
 			this.Controls.Add(this.logoEditor);
-            this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.ForeColor = System.Drawing.Color.Black;
-            this.KeyPreview = true;
-            this.MaximizeBox = false;
-            this.Name = "FormMain";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Sign editor";
+			this.DoubleBuffered = true;
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.ForeColor = System.Drawing.Color.Black;
+			this.KeyPreview = true;
+			this.MaximizeBox = false;
+			this.Name = "FormMain";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = "Sign editor";
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
+			((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
 			this.flowLayoutPanel4.ResumeLayout(false);
 			this.flowLayoutPanel4.PerformLayout();
+			this.flowLayoutPanel2.ResumeLayout(false);
+			this.flowLayoutPanel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudOffsetY)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -336,6 +565,21 @@
 		private System.Windows.Forms.Button buttonClearAll;
 		private System.Windows.Forms.CheckBox cbPythonMode;
 		private System.Windows.Forms.CheckBox cbVerticalDataOrientation;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+		private System.Windows.Forms.ComboBox cbFonts;
+		private System.Windows.Forms.ComboBox cbFontSize;
+		private System.Windows.Forms.Button btnGenerateFonts;
+		private System.Windows.Forms.CheckBox cbBold;
+		private System.Windows.Forms.CheckBox cbItalic;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox tbGenerateChars;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.NumericUpDown nudOffsetY;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label labelLimit;
+		private System.Windows.Forms.NumericUpDown nudLimit;
+		private System.Windows.Forms.ComboBox cbColors;
+		private System.Windows.Forms.CheckBox cbFontInterpolate;
 	}
 }
 
