@@ -288,12 +288,29 @@ namespace FontEditor
 
     public void CopyToClipboard(bool addFontWidthAtEnd, bool verticalDataOrientation)
     {
-      Clipboard.SetText(Export(data, true, addFontWidthAtEnd, verticalDataOrientation));
+      try
+      {
+        Clipboard.SetText(Export(data, true, addFontWidthAtEnd, verticalDataOrientation));
+      }
+      catch
+      {
+				Console.WriteLine("Can't write to clipboard.");
+			}
     }
 
     public void PasteFromClipboard()
     {
-      string s = Clipboard.GetText();
+      string s;
+      try
+      {
+        s = Clipboard.GetText();
+      }
+      catch
+      {
+				Console.WriteLine("Can't read clipboard.");
+				return;
+      }
+
       ulong[] array = Common.HexStringToUlongArray(s);
       Array.Copy(array, data, array.Length);
       UpdatePreview();

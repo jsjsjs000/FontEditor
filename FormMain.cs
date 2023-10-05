@@ -157,14 +157,15 @@ namespace FontEditor
 
 			RemoveAllNewItems();
 
-			string s = "";
+			string s;
 			try
 			{
 				s = Clipboard.GetText();
 			}
 			catch
 			{
-				Console.WriteLine("Can't read from clipboard.");
+				Console.WriteLine("Can't read clipboard.");
+				return;
 			}
 
 			string[] lines = s.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);

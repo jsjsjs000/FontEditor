@@ -33,6 +33,8 @@
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.kryptonLabel1 = new System.Windows.Forms.Label();
 			this.kryptonLabel2 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.cbColors = new System.Windows.Forms.ComboBox();
 			this.cbArrayBrackets = new System.Windows.Forms.CheckBox();
 			this.cbPythonMode = new System.Windows.Forms.CheckBox();
 			this.cbAddFontWidthAtEnd = new System.Windows.Forms.CheckBox();
@@ -50,23 +52,22 @@
 			this.cbFontSize = new System.Windows.Forms.ComboBox();
 			this.cbBold = new System.Windows.Forms.CheckBox();
 			this.cbItalic = new System.Windows.Forms.CheckBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.nudOffsetY = new System.Windows.Forms.NumericUpDown();
+			this.cbFontInterpolate = new System.Windows.Forms.CheckBox();
+			this.labelLimit = new System.Windows.Forms.Label();
+			this.nudLimit = new System.Windows.Forms.NumericUpDown();
 			this.btnGenerateFonts = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tbGenerateChars = new System.Windows.Forms.TextBox();
 			this.logoEditor = new FontEditor.SignEditorControl();
-			this.label2 = new System.Windows.Forms.Label();
-			this.nudOffsetY = new System.Windows.Forms.NumericUpDown();
-			this.label3 = new System.Windows.Forms.Label();
-			this.labelLimit = new System.Windows.Forms.Label();
-			this.nudLimit = new System.Windows.Forms.NumericUpDown();
-			this.cbColors = new System.Windows.Forms.ComboBox();
-			this.cbFontInterpolate = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel4.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudOffsetY)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudLimit)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// nudWidth
@@ -133,7 +134,7 @@
 			this.flowLayoutPanel1.Controls.Add(this.cbAddFontWidthAtEnd);
 			this.flowLayoutPanel1.Controls.Add(this.cbVerticalDataOrientation);
 			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(575, 8);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(597, 8);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(147, 215);
 			this.flowLayoutPanel1.TabIndex = 3;
@@ -157,6 +158,31 @@
 			this.kryptonLabel2.Size = new System.Drawing.Size(42, 13);
 			this.kryptonLabel2.TabIndex = 2;
 			this.kryptonLabel2.Text = "Height:";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(0, 83);
+			this.label3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(41, 13);
+			this.label3.TabIndex = 7;
+			this.label3.Text = "Colors:";
+			// 
+			// cbColors
+			// 
+			this.cbColors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbColors.FormattingEnabled = true;
+			this.cbColors.Items.AddRange(new object[] {
+            "2",
+            "4",
+            "8",
+            "16"});
+			this.cbColors.Location = new System.Drawing.Point(3, 99);
+			this.cbColors.MaxDropDownItems = 16;
+			this.cbColors.Name = "cbColors";
+			this.cbColors.Size = new System.Drawing.Size(54, 21);
+			this.cbColors.TabIndex = 8;
 			// 
 			// cbArrayBrackets
 			// 
@@ -211,7 +237,7 @@
 			this.flowLayoutPanel4.Controls.Add(this.buttonSaveTo);
 			this.flowLayoutPanel4.Controls.Add(this.buttonClearAll);
 			this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.flowLayoutPanel4.Location = new System.Drawing.Point(720, 262);
+			this.flowLayoutPanel4.Location = new System.Drawing.Point(742, 262);
 			this.flowLayoutPanel4.Name = "flowLayoutPanel4";
 			this.flowLayoutPanel4.Size = new System.Drawing.Size(146, 168);
 			this.flowLayoutPanel4.TabIndex = 5;
@@ -285,7 +311,7 @@
 			// 
 			this.listBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBox.Location = new System.Drawing.Point(723, 8);
+			this.listBox.Location = new System.Drawing.Point(745, 8);
 			this.listBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.listBox.Name = "listBox";
 			this.listBox.Size = new System.Drawing.Size(140, 251);
@@ -308,7 +334,7 @@
 			this.flowLayoutPanel2.Controls.Add(this.btnGenerateFonts);
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(8, 398);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(706, 29);
+			this.flowLayoutPanel2.Size = new System.Drawing.Size(732, 29);
 			this.flowLayoutPanel2.TabIndex = 6;
 			// 
 			// cbFonts
@@ -353,7 +379,7 @@
             "30",
             "31",
             "32"});
-			this.cbFontSize.Location = new System.Drawing.Point(289, 3);
+			this.cbFontSize.Location = new System.Drawing.Point(209, 3);
 			this.cbFontSize.MaxDropDownItems = 16;
 			this.cbFontSize.Name = "cbFontSize";
 			this.cbFontSize.Size = new System.Drawing.Size(65, 21);
@@ -362,7 +388,7 @@
 			// cbBold
 			// 
 			this.cbBold.AutoSize = true;
-			this.cbBold.Location = new System.Drawing.Point(360, 6);
+			this.cbBold.Location = new System.Drawing.Point(280, 6);
 			this.cbBold.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
 			this.cbBold.Name = "cbBold";
 			this.cbBold.Size = new System.Drawing.Size(46, 17);
@@ -373,7 +399,7 @@
 			// cbItalic
 			// 
 			this.cbItalic.AutoSize = true;
-			this.cbItalic.Location = new System.Drawing.Point(412, 6);
+			this.cbItalic.Location = new System.Drawing.Point(332, 6);
 			this.cbItalic.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
 			this.cbItalic.Name = "cbItalic";
 			this.cbItalic.Size = new System.Drawing.Size(49, 17);
@@ -381,9 +407,79 @@
 			this.cbItalic.Text = "Italic";
 			this.cbItalic.UseVisualStyleBackColor = true;
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(384, 6);
+			this.label2.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(17, 13);
+			this.label2.TabIndex = 5;
+			this.label2.Text = "Y:";
+			// 
+			// nudOffsetY
+			// 
+			this.nudOffsetY.Location = new System.Drawing.Point(404, 3);
+			this.nudOffsetY.Maximum = new decimal(new int[] {
+            32,
+            0,
+            0,
+            0});
+			this.nudOffsetY.Minimum = new decimal(new int[] {
+            32,
+            0,
+            0,
+            -2147483648});
+			this.nudOffsetY.Name = "nudOffsetY";
+			this.nudOffsetY.Size = new System.Drawing.Size(42, 21);
+			this.nudOffsetY.TabIndex = 6;
+			// 
+			// cbFontInterpolate
+			// 
+			this.cbFontInterpolate.AutoSize = true;
+			this.cbFontInterpolate.Location = new System.Drawing.Point(452, 6);
+			this.cbFontInterpolate.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+			this.cbFontInterpolate.Name = "cbFontInterpolate";
+			this.cbFontInterpolate.Size = new System.Drawing.Size(80, 17);
+			this.cbFontInterpolate.TabIndex = 7;
+			this.cbFontInterpolate.Text = "Interpolate";
+			this.cbFontInterpolate.UseVisualStyleBackColor = true;
+			// 
+			// labelLimit
+			// 
+			this.labelLimit.AutoSize = true;
+			this.labelLimit.Location = new System.Drawing.Point(535, 6);
+			this.labelLimit.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+			this.labelLimit.Name = "labelLimit";
+			this.labelLimit.Size = new System.Drawing.Size(52, 13);
+			this.labelLimit.TabIndex = 5;
+			this.labelLimit.Text = "B/W limit:";
+			// 
+			// nudLimit
+			// 
+			this.nudLimit.Location = new System.Drawing.Point(590, 3);
+			this.nudLimit.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.nudLimit.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.nudLimit.Name = "nudLimit";
+			this.nudLimit.Size = new System.Drawing.Size(54, 21);
+			this.nudLimit.TabIndex = 6;
+			this.nudLimit.Value = new decimal(new int[] {
+            128,
+            0,
+            0,
+            0});
+			// 
 			// btnGenerateFonts
 			// 
-			this.btnGenerateFonts.Location = new System.Drawing.Point(618, 2);
+			this.btnGenerateFonts.Location = new System.Drawing.Point(650, 2);
 			this.btnGenerateFonts.Margin = new System.Windows.Forms.Padding(3, 2, 3, 3);
 			this.btnGenerateFonts.Name = "btnGenerateFonts";
 			this.btnGenerateFonts.Size = new System.Drawing.Size(75, 23);
@@ -409,7 +505,7 @@
 			this.tbGenerateChars.Location = new System.Drawing.Point(11, 361);
 			this.tbGenerateChars.Multiline = true;
 			this.tbGenerateChars.Name = "tbGenerateChars";
-			this.tbGenerateChars.Size = new System.Drawing.Size(700, 34);
+			this.tbGenerateChars.Size = new System.Drawing.Size(722, 34);
 			this.tbGenerateChars.TabIndex = 1;
 			// 
 			// logoEditor
@@ -426,95 +522,12 @@
 			this.logoEditor.Size = new System.Drawing.Size(410, 276);
 			this.logoEditor.TabIndex = 0;
 			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(464, 6);
-			this.label2.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(17, 13);
-			this.label2.TabIndex = 5;
-			this.label2.Text = "Y:";
-			// 
-			// nudOffsetY
-			// 
-			this.nudOffsetY.Location = new System.Drawing.Point(484, 3);
-			this.nudOffsetY.Maximum = new decimal(new int[] {
-            32,
-            0,
-            0,
-            0});
-			this.nudOffsetY.Minimum = new decimal(new int[] {
-            32,
-            0,
-            0,
-            -2147483648});
-			this.nudOffsetY.Name = "nudOffsetY";
-			this.nudOffsetY.Size = new System.Drawing.Size(42, 21);
-			this.nudOffsetY.TabIndex = 6;
-			// 
-			// labelLimit
-			// 
-			this.labelLimit.AutoSize = true;
-			this.labelLimit.Location = new System.Drawing.Point(464, 6);
-			this.labelLimit.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
-			this.labelLimit.Name = "labelLimit";
-			this.labelLimit.Size = new System.Drawing.Size(17, 13);
-			this.labelLimit.TabIndex = 5;
-			this.labelLimit.Text = "B/W limit:";
-			// 
-			// nudOffsetY
-			// 
-			this.nudLimit.Location = new System.Drawing.Point(484, 3);
-			this.nudLimit.Maximum = 255;
-			this.nudLimit.Minimum = 1;
-			this.nudLimit.Name = "nudLimit";
-			this.nudLimit.Size = new System.Drawing.Size(54, 21);
-			this.nudLimit.Value = 128;
-			this.nudLimit.TabIndex = 6;
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(0, 83);
-			this.label3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(41, 13);
-			this.label3.TabIndex = 7;
-			this.label3.Text = "Colors:";
-			// 
-			// cbColors
-			// 
-			this.cbColors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbColors.FormattingEnabled = true;
-			this.cbColors.Items.AddRange(new object[] {
-            "2",
-            "4",
-            "8",
-            "16"});
-			this.cbColors.Location = new System.Drawing.Point(3, 99);
-			this.cbColors.MaxDropDownItems = 16;
-			this.cbColors.Name = "cbColors";
-			this.cbColors.Size = new System.Drawing.Size(54, 21);
-			this.cbColors.TabIndex = 8;
-			// 
-			// cbFontInterpolate
-			// 
-			this.cbFontInterpolate.AutoSize = true;
-			this.cbFontInterpolate.Location = new System.Drawing.Point(532, 6);
-			this.cbFontInterpolate.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
-			this.cbFontInterpolate.Name = "cbFontInterpolate";
-			this.cbFontInterpolate.Size = new System.Drawing.Size(80, 17);
-			this.cbFontInterpolate.TabIndex = 7;
-			this.cbFontInterpolate.Text = "Interpolate";
-			this.cbFontInterpolate.UseVisualStyleBackColor = true;
-			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.ClientSize = new System.Drawing.Size(869, 432);
+			this.ClientSize = new System.Drawing.Size(891, 432);
 			this.Controls.Add(this.tbGenerateChars);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.flowLayoutPanel2);
@@ -529,7 +542,7 @@
 			this.MaximizeBox = false;
 			this.Name = "FormMain";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Sign editor";
+			this.Text = "Font editor";
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
@@ -540,6 +553,7 @@
 			this.flowLayoutPanel2.ResumeLayout(false);
 			this.flowLayoutPanel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudOffsetY)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudLimit)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
