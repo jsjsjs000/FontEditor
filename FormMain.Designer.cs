@@ -31,9 +31,9 @@
 			this.nudWidth = new System.Windows.Forms.NumericUpDown();
 			this.nudHeight = new System.Windows.Forms.NumericUpDown();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.kryptonLabel1 = new System.Windows.Forms.Label();
-			this.kryptonLabel2 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
+			this.lWidth = new System.Windows.Forms.Label();
+			this.lHeight = new System.Windows.Forms.Label();
+			this.lColors = new System.Windows.Forms.Label();
 			this.cbColors = new System.Windows.Forms.ComboBox();
 			this.cbArrayBrackets = new System.Windows.Forms.CheckBox();
 			this.cbPythonMode = new System.Windows.Forms.CheckBox();
@@ -58,7 +58,7 @@
 			this.labelLimit = new System.Windows.Forms.Label();
 			this.nudLimit = new System.Windows.Forms.NumericUpDown();
 			this.btnGenerateFonts = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
+			this.lGenerateChars = new System.Windows.Forms.Label();
 			this.tbGenerateChars = new System.Windows.Forms.TextBox();
 			this.logoEditor = new FontEditor.SignEditorControl();
 			((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
@@ -123,11 +123,11 @@
 			this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.flowLayoutPanel1.AutoSize = true;
 			this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.flowLayoutPanel1.Controls.Add(this.kryptonLabel1);
+			this.flowLayoutPanel1.Controls.Add(this.lWidth);
 			this.flowLayoutPanel1.Controls.Add(this.nudWidth);
-			this.flowLayoutPanel1.Controls.Add(this.kryptonLabel2);
+			this.flowLayoutPanel1.Controls.Add(this.lHeight);
 			this.flowLayoutPanel1.Controls.Add(this.nudHeight);
-			this.flowLayoutPanel1.Controls.Add(this.label3);
+			this.flowLayoutPanel1.Controls.Add(this.lColors);
 			this.flowLayoutPanel1.Controls.Add(this.cbColors);
 			this.flowLayoutPanel1.Controls.Add(this.cbArrayBrackets);
 			this.flowLayoutPanel1.Controls.Add(this.cbPythonMode);
@@ -139,50 +139,46 @@
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(147, 215);
 			this.flowLayoutPanel1.TabIndex = 3;
 			// 
-			// kryptonLabel1
+			// lWidth
 			// 
-			this.kryptonLabel1.AutoSize = true;
-			this.kryptonLabel1.Location = new System.Drawing.Point(0, 3);
-			this.kryptonLabel1.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
-			this.kryptonLabel1.Name = "kryptonLabel1";
-			this.kryptonLabel1.Size = new System.Drawing.Size(39, 13);
-			this.kryptonLabel1.TabIndex = 0;
-			this.kryptonLabel1.Text = "Width:";
+			this.lWidth.AutoSize = true;
+			this.lWidth.Location = new System.Drawing.Point(0, 3);
+			this.lWidth.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
+			this.lWidth.Name = "kryptonLabel1";
+			this.lWidth.Size = new System.Drawing.Size(39, 13);
+			this.lWidth.TabIndex = 0;
+			this.lWidth.Text = "Width:";
 			// 
-			// kryptonLabel2
+			// lHeight
 			// 
-			this.kryptonLabel2.AutoSize = true;
-			this.kryptonLabel2.Location = new System.Drawing.Point(0, 43);
-			this.kryptonLabel2.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
-			this.kryptonLabel2.Name = "kryptonLabel2";
-			this.kryptonLabel2.Size = new System.Drawing.Size(42, 13);
-			this.kryptonLabel2.TabIndex = 2;
-			this.kryptonLabel2.Text = "Height:";
+			this.lHeight.AutoSize = true;
+			this.lHeight.Location = new System.Drawing.Point(0, 43);
+			this.lHeight.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
+			this.lHeight.Name = "kryptonLabel2";
+			this.lHeight.Size = new System.Drawing.Size(42, 13);
+			this.lHeight.TabIndex = 2;
+			this.lHeight.Text = "Height:";
 			// 
-			// label3
+			// lColors
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(0, 83);
-			this.label3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(41, 13);
-			this.label3.TabIndex = 7;
-			this.label3.Text = "Colors:";
+			this.lColors.AutoSize = true;
+			this.lColors.Location = new System.Drawing.Point(0, 83);
+			this.lColors.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
+			this.lColors.Name = "label3";
+			this.lColors.Size = new System.Drawing.Size(41, 13);
+			this.lColors.TabIndex = 7;
+			this.lColors.Text = "Colors:";
 			// 
 			// cbColors
 			// 
 			this.cbColors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbColors.FormattingEnabled = true;
-			this.cbColors.Items.AddRange(new object[] {
-            "2",
-            "4",
-            "8",
-            "16"});
 			this.cbColors.Location = new System.Drawing.Point(3, 99);
 			this.cbColors.MaxDropDownItems = 16;
 			this.cbColors.Name = "cbColors";
 			this.cbColors.Size = new System.Drawing.Size(54, 21);
 			this.cbColors.TabIndex = 8;
+			this.cbColors.SelectedIndexChanged += new System.EventHandler(this.CbColors_IndexChanged);
 			// 
 			// cbArrayBrackets
 			// 
@@ -490,13 +486,13 @@
 			// 
 			// label1
 			// 
-			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 345);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(85, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Generate chars:";
+			this.lGenerateChars.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.lGenerateChars.AutoSize = true;
+			this.lGenerateChars.Location = new System.Drawing.Point(12, 345);
+			this.lGenerateChars.Name = "label1";
+			this.lGenerateChars.Size = new System.Drawing.Size(85, 13);
+			this.lGenerateChars.TabIndex = 0;
+			this.lGenerateChars.Text = "Generate chars:";
 			// 
 			// tbGenerateChars
 			// 
@@ -529,7 +525,7 @@
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
 			this.ClientSize = new System.Drawing.Size(891, 432);
 			this.Controls.Add(this.tbGenerateChars);
-			this.Controls.Add(this.label1);
+			this.Controls.Add(this.lGenerateChars);
 			this.Controls.Add(this.flowLayoutPanel2);
 			this.Controls.Add(this.listBox);
 			this.Controls.Add(this.flowLayoutPanel4);
@@ -565,8 +561,8 @@
     private System.Windows.Forms.NumericUpDown nudWidth;
     private System.Windows.Forms.NumericUpDown nudHeight;
     private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-    private System.Windows.Forms.Label kryptonLabel1;
-    private System.Windows.Forms.Label kryptonLabel2;
+    private System.Windows.Forms.Label lWidth;
+    private System.Windows.Forms.Label lHeight;
     private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
     private System.Windows.Forms.ListBox listBox;
     private System.Windows.Forms.TextBox textBoxName;
@@ -585,11 +581,11 @@
 		private System.Windows.Forms.Button btnGenerateFonts;
 		private System.Windows.Forms.CheckBox cbBold;
 		private System.Windows.Forms.CheckBox cbItalic;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label lGenerateChars;
 		private System.Windows.Forms.TextBox tbGenerateChars;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.NumericUpDown nudOffsetY;
-		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label lColors;
 		private System.Windows.Forms.Label labelLimit;
 		private System.Windows.Forms.NumericUpDown nudLimit;
 		private System.Windows.Forms.ComboBox cbColors;

@@ -77,7 +77,7 @@ namespace FontEditor
       UpdatePreview();
     }
 
-    private void picture_Paint(object sender, PaintEventArgs e)
+    private void Picture_Paint(object sender, PaintEventArgs e)
     {
       Graphics g = e.Graphics;
       for (int x = 0; x <= Sign.SignWidth; x++)
@@ -92,7 +92,7 @@ namespace FontEditor
                 Sign.CellSize - 2, Sign.CellSize - 2);
     }
 
-    private void picture_MouseDown(object sender, MouseEventArgs e)
+    private void Picture_MouseDown(object sender, MouseEventArgs e)
     {
       if (e.Button != MouseButtons.Left)
         return;
@@ -103,7 +103,7 @@ namespace FontEditor
       UpdatePreview();
     }
 
-    private void picture_MouseMove(object sender, MouseEventArgs e)
+    private void Picture_MouseMove(object sender, MouseEventArgs e)
     {
       if (e.Button != MouseButtons.Left)
         return;
@@ -172,7 +172,7 @@ namespace FontEditor
       pictureOverview32.Refresh();
     }
 
-    private void buttonClear_Click(object sender, EventArgs e)
+    private void ButtonClear_Click(object sender, EventArgs e)
     {
       for (int x = 0; x < Sign.SignWidth; x++)
         for (int y = 0; y < Sign.SignHeight; y++)
@@ -181,7 +181,7 @@ namespace FontEditor
       UpdatePreview();
     }
 
-    private void buttonInvert_Click(object sender, EventArgs e)
+    private void ButtonInvert_Click(object sender, EventArgs e)
     {
       for (int x = 0; x < Sign.SignWidth; x++)
         for (int y = 0; y < Sign.SignHeight; y++)
@@ -212,21 +212,21 @@ namespace FontEditor
       pictureOverview32.Height = Sign.SignHeight * 2;
     }
 
-    private void buttonLeft_Click(object sender, EventArgs e)
+    private void ButtonLeft_Click(object sender, EventArgs e)
     {
       for (int y = 0; y < Sign.SignHeight; y++)
         data[y] = (data[y] << 1) | (data[y] >> (Sign.SignWidth - 1));
       UpdatePreview();
     }
 
-    private void buttonRight_Click(object sender, EventArgs e)
+    private void ButtonRight_Click(object sender, EventArgs e)
     {
       for (int y = 0; y < Sign.SignHeight; y++)
         data[y] = (data[y] >> 1) | (data[y] << (Sign.SignWidth - 1));
       UpdatePreview();
     }
 
-    private void buttonTop_Click(object sender, EventArgs e)
+    private void ButtonTop_Click(object sender, EventArgs e)
     {
       ulong tmp = data[0];
       for (int y = 1; y < Sign.SignHeight; y++)
@@ -235,7 +235,7 @@ namespace FontEditor
       UpdatePreview();
     }
 
-    private void buttonBottom_Click(object sender, EventArgs e)
+    private void ButtonBottom_Click(object sender, EventArgs e)
     {
       ulong tmp = data[Sign.SignHeight - 1];
       for (int y = Sign.SignHeight - 2; y >= 0; y--)

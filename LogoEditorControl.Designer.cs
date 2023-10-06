@@ -57,9 +57,9 @@
       this.picture.Size = new System.Drawing.Size(257, 257);
       this.picture.TabIndex = 0;
       this.picture.TabStop = false;
-      this.picture.Paint += new System.Windows.Forms.PaintEventHandler(this.picture_Paint);
-      this.picture.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picture_MouseDown);
-      this.picture.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picture_MouseMove);
+      this.picture.Paint += new System.Windows.Forms.PaintEventHandler(this.Picture_Paint);
+      this.picture.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picture_MouseDown);
+      this.picture.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Picture_MouseMove);
       // 
       // pictureOverview16
       // 
@@ -76,7 +76,7 @@
       this.buttonClear.Size = new System.Drawing.Size(126, 25);
       this.buttonClear.TabIndex = 1;
       this.buttonClear.Text = "Clear";
-      this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+      this.buttonClear.Click += new System.EventHandler(this.ButtonClear_Click);
       // 
       // buttonInvert
       // 
@@ -85,7 +85,7 @@
       this.buttonInvert.Size = new System.Drawing.Size(126, 25);
       this.buttonInvert.TabIndex = 0;
       this.buttonInvert.Text = "Invert";
-      this.buttonInvert.Click += new System.EventHandler(this.buttonInvert_Click);
+      this.buttonInvert.Click += new System.EventHandler(this.ButtonInvert_Click);
       // 
       // buttonCancel
       // 
@@ -120,7 +120,7 @@
       this.buttonTop.Size = new System.Drawing.Size(25, 25);
       this.buttonTop.TabIndex = 2;
       this.buttonTop.Text = "▲";
-      this.buttonTop.Click += new System.EventHandler(this.buttonTop_Click);
+      this.buttonTop.Click += new System.EventHandler(this.ButtonTop_Click);
       // 
       // buttonBottom
       // 
@@ -129,7 +129,7 @@
       this.buttonBottom.Size = new System.Drawing.Size(25, 25);
       this.buttonBottom.TabIndex = 4;
       this.buttonBottom.Text = "▼";
-      this.buttonBottom.Click += new System.EventHandler(this.buttonBottom_Click);
+      this.buttonBottom.Click += new System.EventHandler(this.ButtonBottom_Click);
       // 
       // buttonLeft
       // 
@@ -139,7 +139,7 @@
       //this.buttonLeft.StateCommon.Content.ShortText.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
       this.buttonLeft.TabIndex = 3;
       this.buttonLeft.Text = "◄";
-      this.buttonLeft.Click += new System.EventHandler(this.buttonLeft_Click);
+      this.buttonLeft.Click += new System.EventHandler(this.ButtonLeft_Click);
       // 
       // buttonRight
       // 
@@ -149,7 +149,7 @@
       //this.buttonRight.StateCommon.Content.ShortText.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
       this.buttonRight.TabIndex = 5;
       this.buttonRight.Text = "►";
-      this.buttonRight.Click += new System.EventHandler(this.buttonRight_Click);
+      this.buttonRight.Click += new System.EventHandler(this.ButtonRight_Click);
       // 
       // labelInfo
       // 

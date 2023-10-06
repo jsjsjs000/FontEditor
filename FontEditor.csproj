@@ -64,6 +64,7 @@
       <DependentUpon>SignEditorControl.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="FontItem.cs" />
+    <Compile Include="ComboBoxItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

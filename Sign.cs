@@ -8,6 +8,7 @@ namespace FontEditor
   {
     public static int SignWidth = 16;
     public static int SignHeight = 16;
+		public static int Colors = 2;
     public static int CellSize = 16;
   }
 }

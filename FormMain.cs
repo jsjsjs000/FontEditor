@@ -20,13 +20,20 @@ namespace FontEditor
 			//+ "." + Program.ProgramVersionBuild + "." + Program.ProgramVersionRevision + " " +
 			//Program.ProgramBuildDateTime;
 
+			canUpdateControls = false;
 			nudWidth.Value = 16;
 			nudHeight.Value = 16;
-			cbColors.SelectedIndex = 0;
+			cbColors.Items.Add(new ComboBoxItem(2, "2"));
+			cbColors.Items.Add(new ComboBoxItem(4, "4"));
+			cbColors.Items.Add(new ComboBoxItem(8, "8"));
+			cbColors.Items.Add(new ComboBoxItem(16, "16"));
+			cbColors.SelectedIndex = 3; // $$
 
 			logoEditor.data = new ulong[255];
 			logoEditor.ButtonClearText = "Clear";
 			logoEditor.ButtonInvertText = "Invert";
+			canUpdateControls = true;
+
 			logoEditor.HideButtonSaveAndCancel();
 			logoEditor.UpdatePreview();
 			logoEditor.UpdateControlSize();
@@ -41,7 +48,7 @@ namespace FontEditor
 				}
 			if (i >= 0)
 				cbFonts.SelectedIndex = i;
-			cbFontSize.SelectedIndex = 6;
+			cbFontSize.SelectedIndex = 4;
 
 			ClearAll();
 
@@ -74,6 +81,14 @@ namespace FontEditor
 		private void NudHeight_ValueChanged(object sender, EventArgs e)
 		{
 			Sign.SignHeight = (int)nudHeight.Value;
+			logoEditor.RecreatePreviewPictures();
+			logoEditor.UpdatePreview();
+			logoEditor.UpdateControlSize();
+		}
+
+		private void CbColors_IndexChanged(object sender, EventArgs e)
+		{
+			Sign.Colors = ((ComboBoxItem)cbColors.SelectedItem).Value;
 			logoEditor.RecreatePreviewPictures();
 			logoEditor.UpdatePreview();
 			logoEditor.UpdateControlSize();
@@ -371,10 +386,12 @@ namespace FontEditor
 					(int)nudOffsetY.Value, cbFontInterpolate.Checked, (byte)nudLimit.Value, tbGenerateChars.Text);
 
 			canUpdateControls = true;
-			if (i >= 0 && i < listBox.Items.Count)
-				listBox.SelectedIndex = i;
-			else if (listBox.Items.Count > 0)
-				listBox.SelectedIndex = listBox.Items.Count - 1;
+			//if (i >= 0 && i < listBox.Items.Count) $$
+			//	listBox.SelectedIndex = i;
+			//else if (listBox.Items.Count > 0)
+			//listBox.SelectedIndex = listBox.Items.Count - 1;
+
+			listBox.SelectedIndex = 19;
 		}
 	}
 }
