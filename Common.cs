@@ -276,55 +276,55 @@ namespace FontEditor
       return t;
     }
 
-    public static byte[] HexStringToByteArray(string s)
+    public static byte[,] HexStringToByteArray(string s)
     {
       if (s.Length % 2 != 0)
-        return new byte[0];
+        return new byte[0, 0];
 
-      byte[] result = new byte[s.Length / 2];
+      byte[,] result = new byte[s.Length / 2, 0]; // $$$
       for (int i = 0; i < s.Length; i++)
       {
         byte a;
         if (!byte.TryParse(s[i].ToString(), NumberStyles.HexNumber, CultureInfo.CurrentCulture, out a))
-          return new byte[0];
-        if (i % 2 == 0)
-          result[i / 2] = (byte)(a << 4);
-        else
-          result[i / 2] |= a;
+          return new byte[0, 0];
+        //if (i % 2 == 0) $$$
+        //  result[i / 2] = (byte)(a << 4);
+        //else
+          //result[i / 2] |= a;
       }
 
       return result;
     }
 
-    public static ushort[] HexStringToUshortArray(string s)
-    {
-      List<ushort> array = new List<ushort>();
-      s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
-      string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-      foreach (string word in words)
-      {
-        ushort us;
-        if (!ParseIntOrHex(word, out us))
-          return new ushort[0];
-        array.Add(us);
-      }
-      return array.ToArray();
-    }
+    //public static ushort[] HexStringToUshortArray(string s)
+    //{
+    //  List<ushort> array = new List<ushort>();
+    //  s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
+    //  string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+    //  foreach (string word in words)
+    //  {
+    //    ushort us;
+    //    if (!ParseIntOrHex(word, out us))
+    //      return new ushort[0];
+    //    array.Add(us);
+    //  }
+    //  return array.ToArray();
+    //}
 
-    public static ulong[] HexStringToUlongArray(string s)
-    {
-      List<ulong> array = new List<ulong>();
-      s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
-      string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-      foreach (string word in words)
-      {
-        ulong us;
-        if (!ParseULongOrHex(word, out us))
-          return new ulong[0];
-        array.Add(us);
-      }
-      return array.ToArray();
-    }
+    //public static ulong[] HexStringToUlongArray(string s)
+    //{
+    //  List<ulong> array = new List<ulong>();
+    //  s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
+    //  string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+    //  foreach (string word in words)
+    //  {
+    //    ulong us;
+    //    if (!ParseULongOrHex(word, out us))
+    //      return new ulong[0];
+    //    array.Add(us);
+    //  }
+    //  return array.ToArray();
+    //}
 
 		//public static byte[] HexStringToByteArray(string s)
 		//{
