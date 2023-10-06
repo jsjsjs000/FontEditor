@@ -4,11 +4,11 @@ using System.Text;
 
 namespace FontEditor
 {
-  class Sign
-  {
-    public static int SignWidth = 16;
-    public static int SignHeight = 16;
-		public static int Colors = 2;
-    public static int CellSize = 16;
-  }
+  //class Sign
+  //{
+  //  public static int SignWidth = 16;
+  //  public static int SignHeight = 16;
+		//public static int Colors = 2;
+  //  public static int CellSize = 16;
+  //}
 }

@@ -2,12 +2,12 @@
 
 namespace FontEditor
 {
-	class FontItem
+	public class FontItem
 	{
 		public const string NewString = "<new>";
 
 		public string name = "";
-		public byte[] data = new byte[256 * 8];
+		public byte[,] data = new byte[SignEditorControl.MaxSize, SignEditorControl.MaxSize];
 
 		public override string ToString()
 		{
@@ -45,18 +45,19 @@ namespace FontEditor
 
 			if (verticalDataOrientation)
 			{
-				byte[] newData = new byte[16 * 8];
+				byte[,] newData = new byte[SignEditorControl.MaxSize, SignEditorControl.MaxSize];
 				for (int x = 0; x < 16; x++)
 					for (int y = 0; y < 16; y++)
 						if (x < item.data.Length)
 						{
-							bool bit = (item.data[x] & (1UL << y)) != 0;
-							newData[y] |= (byte)((bit ? 1UL : 0UL) << (Sign.SignWidth - x - 1));
+							//bool bit = GetPixel(x, y);
+							//bool bit = (item.data[x] & (1UL << y)) != 0;
+							//newData[y] |= (byte)((bit ? 1UL : 0UL) << (Sign.SignWidth - x - 1));
 						}
 				item.data = newData;
 			}
 
-			Array.Resize(ref item.data, 255);
+			//Array.Resize(ref item.data, 255); $$$
 			item.name = comment;
 			return item;
 		}

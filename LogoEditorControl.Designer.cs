@@ -155,9 +155,9 @@
       // 
       this.labelInfo.Location = new System.Drawing.Point(6, 183);
       this.labelInfo.Name = "labelInfo";
-      this.labelInfo.Size = new System.Drawing.Size(87, 20);
+      this.labelInfo.Size = new System.Drawing.Size(100, 40);
       this.labelInfo.TabIndex = 8;
-      this.labelInfo.Text = "Ctrl+C, Ctrl+V";
+      this.labelInfo.Text = "Ctrl+C, Ctrl+Shift+C, Ctrl+V";
       // 
       // panelRight
       // 

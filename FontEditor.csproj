@@ -65,6 +65,7 @@
     </EmbeddedResource>
     <Compile Include="FontItem.cs" />
     <Compile Include="ComboBoxItem.cs" />
+    <Compile Include="ImportExport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

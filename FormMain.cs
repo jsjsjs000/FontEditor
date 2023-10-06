@@ -29,7 +29,7 @@ namespace FontEditor
 			cbColors.Items.Add(new ComboBoxItem(16, "16"));
 			cbColors.SelectedIndex = 3; // $$
 
-			logoEditor.SetData(new byte[SignEditorControl.DataSize]);
+			logoEditor.SetData(new FontItem());
 			logoEditor.ButtonClearText = "Clear";
 			logoEditor.ButtonInvertText = "Invert";
 			canUpdateControls = true;
@@ -72,7 +72,7 @@ namespace FontEditor
 
 		private void NudWidth_ValueChanged(object sender, EventArgs e)
 		{
-			Sign.SignWidth = (int)nudWidth.Value;
+			logoEditor.SignWidth = (int)nudWidth.Value;
 			logoEditor.RecreatePreviewPictures();
 			logoEditor.UpdatePreview();
 			logoEditor.UpdateControlSize();
@@ -80,7 +80,7 @@ namespace FontEditor
 
 		private void NudHeight_ValueChanged(object sender, EventArgs e)
 		{
-			Sign.SignHeight = (int)nudHeight.Value;
+			logoEditor.SignHeight = (int)nudHeight.Value;
 			logoEditor.RecreatePreviewPictures();
 			logoEditor.UpdatePreview();
 			logoEditor.UpdateControlSize();
@@ -88,7 +88,7 @@ namespace FontEditor
 
 		private void CbColors_IndexChanged(object sender, EventArgs e)
 		{
-			Sign.Colors = ((ComboBoxItem)cbColors.SelectedItem).Value;
+			logoEditor.Colors = ((ComboBoxItem)cbColors.SelectedItem).Value;
 			logoEditor.RecreatePreviewPictures();
 			logoEditor.UpdatePreview();
 			logoEditor.UpdateControlSize();
@@ -96,7 +96,7 @@ namespace FontEditor
 
 		private void FormMain_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.C)
+			if (e.Control && !e.Alt && e.KeyCode == Keys.C)
 				logoEditor.CopyToClipboard(cbAddFontWidthAtEnd.Checked, cbVerticalDataOrientation.Checked);
 			if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.V)
 				logoEditor.PasteFromClipboard();
@@ -110,7 +110,7 @@ namespace FontEditor
 			canUpdateControls = false;
 			FontItem item = (FontItem)listBox.SelectedItem;
 			this.textBoxName.Text = item.name;
-			logoEditor.SetData(item.data);
+			logoEditor.SetData(item);
 			logoEditor.UpdatePreview();
 			logoEditor.UpdateControlSize();
 			canUpdateControls = true;
@@ -149,7 +149,7 @@ namespace FontEditor
 			listBox.SelectedIndex = Math.Min(ix, listBox.Items.Count - 1);
 		}
 
-		bool IsArrayEmpty(byte[] array)
+		bool IsArrayEmpty(byte[,] array)
 		{
 			foreach (byte item in array)
 				if (item != 0)
@@ -183,65 +183,8 @@ namespace FontEditor
 				return;
 			}
 
-			string[] lines = s.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-			if (lines.Length > 1 && lines[0].Contains("\t// @"))
-			{
-				///  // @0 'A' (13 pixels wide)
-				///  0x07, 0x00, //      ###     
-				///  0x07, 0x00, //      ###     
+			ImportExport.Import(s, items, listBox.Items, cbVerticalDataOrientation.Checked);
 
-				string name = "";
-				FontItem item = new FontItem();
-				Array.Resize(ref item.data, SignEditorControl.DataSize);
-				int dataIndex = 0;
-
-				int l = 0;
-				foreach (string line_ in lines)
-				{
-					string line = line_.Trim();
-					if (line.IndexOf("// @", StringComparison.CurrentCulture) == 0)
-					{
-						name = "";
-						int i = line.IndexOf('\'');
-						if (i > 0)
-							name = line[i + 1].ToString();
-					}
-					else if (line.IndexOf(", // ", StringComparison.CurrentCulture) > 0)
-					{
-						int c = line.IndexOf(", // ", StringComparison.CurrentCulture);
-						line = line.Substring(0, c);
-						line.Split(',');
-
-						line = line.Replace(", 0x", "");
-						ulong[] data = Common.HexStringToUlongArray(line);
-						Array.Copy(data, 0, item.data, dataIndex, data.Length);
-						dataIndex += data.Length;
-					}
-					else if ((line == "" || l == lines.Length - 1) && dataIndex > 0)
-					{
-						item.name = name;
-						items.Add(item);
-						listBox.Items.Add(item);
-						name = "";
-						dataIndex = 0;
-						item = new FontItem();
-						Array.Resize(ref item.data, SignEditorControl.DataSize);
-					}
-					l++;
-				}
-			}
-			else
-			{
-				foreach (string line in s.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
-				{
-					FontItem item = FontItem.Import(line, cbVerticalDataOrientation.Checked);
-					if (item != null)
-					{
-						items.Add(item);
-						listBox.Items.Add(item);
-					}
-				}
-			}
 			canUpdateControls = true;
 			listBox.SelectedIndex = listBox.Items.Count - 1;
 		}
@@ -259,7 +202,7 @@ namespace FontEditor
 					s += "[ ";
 				if (brackets && !python)
 					s += "{ ";
-				s += SignEditorControl.Export(item.data, false, cbAddFontWidthAtEnd.Checked,
+				s += ImportExport.ExportChar(item.data, false, cbAddFontWidthAtEnd.Checked,
 						cbVerticalDataOrientation.Checked);
 				if (brackets && python)
 					s += " ]";
@@ -331,7 +274,7 @@ namespace FontEditor
 				{
 					name = string.Format("{0} - {1} 0x{2:x2}", c.ToString(), (uint)c, (uint)c),
 				};
-				Array.Resize(ref item.data, 255);
+				//$$$Array.Resize(ref item.data, 255);
 				items.Add(item);
 				listBox.Items.Add(item);
 				GenerateFontChar(font, graphic, bitmap, item, offset, limit, c);
@@ -347,34 +290,36 @@ namespace FontEditor
 			graphics.FillRectangle(Brushes.Black, 0, 0, bitmap.Width, bitmap.Height);
 			graphics.DrawString(c.ToString(), font, Brushes.White, offset);
 
-			for (int y = 0; y < Sign.SignHeight; y++)
-				for (int x = 0; x < Sign.SignWidth; x++)
+			for (int y = 0; y < logoEditor.SignHeight; y++)
+				for (int x = 0; x < logoEditor.SignWidth; x++)
 					if (bitmap.GetPixel(x, y).R >= limit)
-						item.data[y] |= (byte)(1U << (16 - 1 - x));
+						item.data[x, y] = 1;
+						//item.data[x, y] |= (byte)(1U << (16 - 1 - x));
 
 			TrimCharLeft(item.data);
 		}
 
-		void TrimCharLeft(byte[] data)
+		void TrimCharLeft(byte[,] data)
 		{
-			for (int y = 0; y < Sign.SignHeight; y++)
+			for (int y = 0; y < logoEditor.SignHeight; y++)
 				if (IsLineEmpty(data, 0))
 					ShiftLeft(data);
 		}
 
-		bool IsLineEmpty(byte[] data, int x)
+		bool IsLineEmpty(byte[,] data, int x)
 		{
-			for (int y = 0; y < Sign.SignHeight; y++)
-				if (((data[y] >> (16 - 1 - x)) & 0x01) > 0)
+			//for (int y = 0; y < Sign.SignHeight; y++)
+				//if (logoEditor.GetPixel(0, y))
+				//$$if (((data[y] >> (16 - 1 - x)) & 0x01) > 0)
 					return false;
 
-			return true;
+			//return true;
 		}
 
-		void ShiftLeft(byte[] data)
+		void ShiftLeft(byte[,] data)
 		{
-			for (int y = 0; y < Sign.SignHeight; y++)
-				data[y] = (byte)(data[y] << 1);
+			//$$$for (int y = 0; y < Sign.SignHeight; y++)
+				//data[y] = (byte)(data[y] << 1);
 		}
 
 		private void BtnGenerateFonts_Click(object sender, EventArgs e)

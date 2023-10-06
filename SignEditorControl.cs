@@ -11,8 +11,15 @@ namespace FontEditor
   public partial class SignEditorControl : UserControl
   {
 		public const int DataSize = 32 * 32; /// 1024
+		public const int MaxSize = 32;
 
-		byte[] data = new byte[DataSize];
+		public int SignWidth = 16;
+		public int SignHeight = 16;
+		public int Colors = 2;
+		public int CellSize = 16;
+
+		//byte[,] data = new byte[MaxSize, MaxSize];
+		FontItem fontItem;
 		bool lastPictureSet = false;
 
 		string ButtonClearText_ = "";
@@ -63,9 +70,9 @@ namespace FontEditor
       }
     }
 
-		public void SetData(byte[] data)
+		public void SetData(FontItem fontItem)
 		{
-			this.data = data;
+			this.fontItem = fontItem;
 		}
 
 		public void HideButtonSaveAndCancel()
@@ -78,27 +85,27 @@ namespace FontEditor
     {
       InitializeComponent();
 
-      pictureOverview16.Image = new Bitmap(Sign.SignWidth, Sign.SignHeight);
-      pictureOverview32.Image = new Bitmap(Sign.SignWidth * 2, Sign.SignHeight * 2);
-      UpdatePreview();
+      pictureOverview16.Image = new Bitmap(SignWidth, SignHeight);
+      pictureOverview32.Image = new Bitmap(SignWidth * 2, SignHeight * 2);
+      //$$UpdatePreview();
     }
 
     private void Picture_Paint(object sender, PaintEventArgs e)
     {
 				/// Draw grid
       Graphics g = e.Graphics;
-      for (int x = 0; x <= Sign.SignWidth; x++)
-        g.DrawLine(Pens.DarkGray, x * Sign.CellSize, 0, x * Sign.CellSize, Sign.CellSize * Sign.SignHeight);
-      for (int y = 0; y <= Sign.SignHeight; y++)
-        g.DrawLine(Pens.DarkGray, 0, y * Sign.CellSize, Sign.CellSize * Sign.SignWidth, y * Sign.CellSize);
+      for (int x = 0; x <= SignWidth; x++)
+        g.DrawLine(Pens.DarkGray, x * CellSize, 0, x * CellSize, CellSize * SignHeight);
+      for (int y = 0; y <= SignHeight; y++)
+        g.DrawLine(Pens.DarkGray, 0, y * CellSize, CellSize * SignWidth, y * CellSize);
 
 				/// Draw pixels
-      for (int x = 0; x < Sign.SignWidth; x++)
-        for (int y = 0; y < Sign.SignHeight; y++)
-          //if ((data[y] & (1UL << (Sign.SignWidth - x - 1))) != 0)
+      for (int x = 0; x < SignWidth; x++)
+        for (int y = 0; y < SignHeight; y++)
+          //if ((data[y] & (1UL << (SignWidth - x - 1))) != 0)
 					if (GetPixel(x, y))
-            g.FillRectangle(Brushes.Black, x * Sign.CellSize + 1, y * Sign.CellSize + 1,
-                Sign.CellSize - 2, Sign.CellSize - 2);
+            g.FillRectangle(Brushes.Black, x * CellSize + 1, y * CellSize + 1,
+                CellSize - 2, CellSize - 2);
     }
 
     private void Picture_MouseDown(object sender, MouseEventArgs e)
@@ -106,8 +113,8 @@ namespace FontEditor
       if (e.Button != MouseButtons.Left)
         return;
 
-      bool p = GetPixel(e.X / Sign.CellSize, e.Y / Sign.CellSize);
-      SetPixel(e.X / Sign.CellSize, e.Y / Sign.CellSize, !p);
+      bool p = GetPixel(e.X / CellSize, e.Y / CellSize);
+      SetPixel(e.X / CellSize, e.Y / CellSize, !p);
       lastPictureSet = !p;
       UpdatePreview();
     }
@@ -117,27 +124,29 @@ namespace FontEditor
       if (e.Button != MouseButtons.Left)
         return;
 
-      SetPixel(e.X / Sign.CellSize, e.Y / Sign.CellSize, lastPictureSet);
+      SetPixel(e.X / CellSize, e.Y / CellSize, lastPictureSet);
       UpdatePreview();
     }
 
-    bool GetPixel(int x, int y)
+    public bool GetPixel(int x, int y)
     {
-      if (x < 0 || y < 0 || x >= Sign.SignWidth || y >= Sign.SignHeight)
+      if (x < 0 || y < 0 || x >= SignWidth || y >= SignHeight)
         return false;
 
-      return (data[y] & (1UL << (Sign.SignWidth - x - 1))) != 0;
+			return fontItem.data[x, y] != 0;
+      //return (data[y] & (1UL << (SignWidth - x - 1))) != 0;
     }
 
-    void SetPixel(int x, int y, bool set)
+    public void SetPixel(int x, int y, bool set)
     {
-      if (x < 0 || y < 0 || x >= Sign.SignWidth || y >= Sign.SignHeight)
+      if (x < 0 || y < 0 || x >= SignWidth || y >= SignHeight)
         return;
 
-      if (set)
-        data[y] |= (byte)(1UL << (Sign.SignWidth - x - 1));
-      else
-        data[y] &= (byte)(0xffffffffUL ^ (1UL << (Sign.SignWidth - x - 1)));
+			fontItem.data[x, y] = set ? (byte)1 : (byte)0;
+      //if (set)
+      //  data[y] |= (byte)(1UL << (SignWidth - x - 1));
+      //else
+        //data[y] &= (byte)(0xffffffffUL ^ (1UL << (SignWidth - x - 1)));
     }
 
     void DrawOverview16()
@@ -146,10 +155,11 @@ namespace FontEditor
         return;
 
       Bitmap bmp = (Bitmap)pictureOverview16.Image;
-      for (int x = 0; x < Sign.SignWidth; x++)
-        for (int y = 0; y < Sign.SignHeight; y++)
+      for (int x = 0; x < SignWidth; x++)
+        for (int y = 0; y < SignHeight; y++)
         {
-          if ((data[y] & (1UL << (Sign.SignWidth - x - 1))) != 0)
+					if (GetPixel(x, y))
+          //if ((data[y] & (1UL << (SignWidth - x - 1))) != 0)
             bmp.SetPixel(x, y, Color.Black);
           else
             bmp.SetPixel(x, y, Color.White);
@@ -164,11 +174,12 @@ namespace FontEditor
         return;
 
       Bitmap bmp = (Bitmap)pictureOverview32.Image;
-      for (int x = 0; x < Sign.SignWidth; x++)
-        for (int y = 0; y < Sign.SignHeight; y++)
+      for (int x = 0; x < SignWidth; x++)
+        for (int y = 0; y < SignHeight; y++)
         {
           Color color;
-          if ((data[y] & (1UL << (Sign.SignWidth - x - 1))) != 0)
+					if (GetPixel(x, y))
+          //if ((data[y] & (1UL << (SignWidth - x - 1))) != 0)
             color = Color.Black;
           else
             color = Color.White;
@@ -183,8 +194,8 @@ namespace FontEditor
 
     private void ButtonClear_Click(object sender, EventArgs e)
     {
-      for (int x = 0; x < Sign.SignWidth; x++)
-        for (int y = 0; y < Sign.SignHeight; y++)
+      for (int x = 0; x < SignWidth; x++)
+        for (int y = 0; y < SignHeight; y++)
           SetPixel(x, y, false);
 
       UpdatePreview();
@@ -192,20 +203,23 @@ namespace FontEditor
 
     private void ButtonInvert_Click(object sender, EventArgs e)
     {
-      for (int x = 0; x < Sign.SignWidth; x++)
-        for (int y = 0; y < Sign.SignHeight; y++)
+      for (int x = 0; x < SignWidth; x++)
+        for (int y = 0; y < SignHeight; y++)
           SetPixel(x, y, !GetPixel(x, y));
       UpdatePreview();
     }
 
     public void RecreatePreviewPictures()
     {
-      pictureOverview16.Image = new Bitmap(Sign.SignWidth, Sign.SignHeight);
-      pictureOverview32.Image = new Bitmap(Sign.SignWidth * 2, Sign.SignHeight * 2);
+      pictureOverview16.Image = new Bitmap(SignWidth, SignHeight);
+      pictureOverview32.Image = new Bitmap(SignWidth * 2, SignHeight * 2);
     }
 
     public void UpdatePreview()
     {
+			if (fontItem == null)
+				return;
+
       picture.Refresh();
       DrawOverview16();
       DrawOverview32();
@@ -213,94 +227,52 @@ namespace FontEditor
 
     public void UpdateControlSize()
     {
-      picture.Width = Sign.CellSize * Sign.SignWidth + 1;
-      picture.Height = Sign.CellSize * Sign.SignHeight + 1;
-      pictureOverview16.Width = Sign.SignWidth;
-      pictureOverview16.Height = Sign.SignHeight;
-      pictureOverview32.Width = Sign.SignWidth * 2;
-      pictureOverview32.Height = Sign.SignHeight * 2;
+      picture.Width = CellSize * SignWidth + 1;
+      picture.Height = CellSize * SignHeight + 1;
+      pictureOverview16.Width = SignWidth;
+      pictureOverview16.Height = SignHeight;
+      pictureOverview32.Width = SignWidth * 2;
+      pictureOverview32.Height = SignHeight * 2;
     }
 
     private void ButtonLeft_Click(object sender, EventArgs e)
     {
-      for (int y = 0; y < Sign.SignHeight; y++)
-        data[y] = (byte)((data[y] << 1) | (data[y] >> (Sign.SignWidth - 1)));
+      //for (int y = 0; y < SignHeight; y++)
+        //data[y] = (byte)((data[y] << 1) | (data[y] >> (SignWidth - 1)));
       UpdatePreview();
     }
 
     private void ButtonRight_Click(object sender, EventArgs e)
     {
-      for (int y = 0; y < Sign.SignHeight; y++)
-        data[y] = (byte)((data[y] >> 1) | (data[y] << (Sign.SignWidth - 1)));
+      //for (int y = 0; y < SignHeight; y++)
+        //data[y] = (byte)((data[y] >> 1) | (data[y] << (SignWidth - 1)));
       UpdatePreview();
     }
 
     private void ButtonTop_Click(object sender, EventArgs e)
     {
-      byte tmp = data[0];
-      for (int y = 1; y < Sign.SignHeight; y++)
-        data[y - 1] = data[y];
-      data[Sign.SignHeight - 1] = tmp;
+      //byte tmp = data[0];
+      //for (int y = 1; y < SignHeight; y++)
+      //  data[y - 1] = data[y];
+      //data[SignHeight - 1] = tmp;
       UpdatePreview();
     }
 
     private void ButtonBottom_Click(object sender, EventArgs e)
     {
-      byte tmp = data[Sign.SignHeight - 1];
-      for (int y = Sign.SignHeight - 2; y >= 0; y--)
-        data[y + 1] = data[y];
-      data[0] = tmp;
+      //byte tmp = data[SignHeight - 1];
+      //for (int y = SignHeight - 2; y >= 0; y--)
+      //  data[y + 1] = data[y];
+      //data[0] = tmp;
       UpdatePreview();
     }
-
-    public static string Export(byte[] data, bool divide, bool addFontWidthAtEnd,
-    		bool verticalDataOrientation)
-    {
-      byte[] data_ = new byte[data.Length];
-      Array.Copy(data, data_, data.Length);
-      for (int i = 0; i < data_.Length; i++)
-        data_[i] &= (byte)((1UL << Sign.SignWidth) - 1UL);
-
-      int height = Sign.SignHeight;
-      if (verticalDataOrientation)
-      {
-        byte[] vdata = new byte[data.Length];
-        for (int x = 0; x < Sign.SignHeight; x++)
-          for (int y = 0; y < Sign.SignWidth; y++)
-            if (Sign.SignWidth - y - 1 >= 0)
-          {
-            bool bit = (data_[x] & (1UL << y)) != 0;
-            vdata[Sign.SignWidth - y - 1] |= (byte)((bit ? 1UL : 0UL) << x);
-          }
-        data_ = vdata;
-        height = Sign.SignWidth;
-      }
-
-      string s;
-      if (Sign.SignWidth <= 8)
-        s = Common.ArrayToHexString(data_, divide, height, 2);
-      else if (Sign.SignWidth <= 16)
-        s = Common.ArrayToHexString(data_, divide, height, 4);
-      else
-        s = Common.ArrayToHexString(data_, divide, height, 8);
-      int effectiveWidth = 0;
-      for (int y = 0; y < Sign.SignHeight; y++)
-        for (int x = Sign.SignWidth - 1; x >= 0; x--)
-          if ((data_[y] & (1UL << x)) != 0)
-            effectiveWidth = Math.Max(effectiveWidth, (Sign.SignWidth - x));
-
-      if (addFontWidthAtEnd && Sign.SignWidth <= 8)
-        s += ", 0x" + effectiveWidth.ToString("x2");
-      if (addFontWidthAtEnd && Sign.SignWidth > 8)
-        s += ", 0x" + effectiveWidth.ToString("x4");
-      return s;
-    }
-
+    
     public void CopyToClipboard(bool addFontWidthAtEnd, bool verticalDataOrientation)
     {
       try
       {
-        Clipboard.SetText(Export(data, true, addFontWidthAtEnd, verticalDataOrientation));
+				string s = ImportExport.ExportChar(fontItem.data, true, addFontWidthAtEnd, verticalDataOrientation);
+        Clipboard.SetText(s);
       }
       catch
       {
@@ -321,8 +293,8 @@ namespace FontEditor
 				return;
       }
 
-      ulong[] array = Common.HexStringToUlongArray(s);
-      Array.Copy(array, data, array.Length);
+			byte[,] array = new byte[0, 0]; // $$$ Common.HexStringToUlongArray(s);
+      Array.Copy(array, fontItem.data, array.Length);
       UpdatePreview();
     }
   }
