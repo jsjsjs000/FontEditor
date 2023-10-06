@@ -7,7 +7,7 @@ namespace FontEditor
 		public const string NewString = "<new>";
 
 		public string name = "";
-		public ulong[] data = new ulong[255];
+		public byte[] data = new byte[256 * 8];
 
 		public override string ToString()
 		{
@@ -16,12 +16,12 @@ namespace FontEditor
 
 		public static FontItem Import(string s, bool verticalDataOrientation)
 		{
-			/// { 0x1234, 0x1234, 0x1234, 0x1234, 0x1234, 0x1234, 0x1234, 0x1234 }
+				/// { 0x1234, 0x1234, 0x1234, 0x1234, 0x1234, 0x1234, 0x1234, 0x1234 }
 			s = s.Trim(' ', '\t');
 			if (s.Length > 1 && s[0] != '{' && s.IndexOf('}') >= 0)
 				s = s.Replace('{', ' ').Replace('}', ' ');
 
-			/// [0x7e, 0x11, 0x11, 0x11, 0x7e], # 41 A
+				/// [0x7e, 0x11, 0x11, 0x11, 0x7e], # 41 A
 			if (s.Length > 1 && s[0] == '[' && s.IndexOf(']') >= 0)
 				s = s.Replace('[', ' ').Replace(']', ' ');
 
@@ -30,9 +30,9 @@ namespace FontEditor
 			//  return null;
 
 			string values = s;// s.Substring(1, endBracketIx - 1).Trim();
-			int commentIx = s.IndexOf("//");
+			int commentIx = s.IndexOf("//", StringComparison.CurrentCulture);
 			if (commentIx == -1)
-				commentIx = s.IndexOf("#");
+				commentIx = s.IndexOf("#", StringComparison.CurrentCulture);
 			string comment = NewString;
 			if (commentIx > 0)
 			{
@@ -41,17 +41,17 @@ namespace FontEditor
 			}
 
 			FontItem item = new FontItem();
-			item.data = Common.HexStringToUlongArray(values);
+			item.data = Common.HexStringToByteArray(values);
 
 			if (verticalDataOrientation)
 			{
-				ulong[] newData = new ulong[16];
+				byte[] newData = new byte[16 * 8];
 				for (int x = 0; x < 16; x++)
 					for (int y = 0; y < 16; y++)
 						if (x < item.data.Length)
 						{
 							bool bit = (item.data[x] & (1UL << y)) != 0;
-							newData[y] |= (bit ? 1UL : 0UL) << (Sign.SignWidth - x - 1);
+							newData[y] |= (byte)((bit ? 1UL : 0UL) << (Sign.SignWidth - x - 1));
 						}
 				item.data = newData;
 			}

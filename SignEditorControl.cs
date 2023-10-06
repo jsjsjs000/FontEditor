@@ -10,9 +10,12 @@ namespace FontEditor
 {
   public partial class SignEditorControl : UserControl
   {
-    public ulong[] data = new ulong[16];
+		public const int DataSize = 32 * 32; /// 1024
 
-    string ButtonClearText_ = "";
+		byte[] data = new byte[DataSize];
+		bool lastPictureSet = false;
+
+		string ButtonClearText_ = "";
     [Description(""), Category("Data")]
     public string ButtonClearText
     {
@@ -60,13 +63,16 @@ namespace FontEditor
       }
     }
 
-    public void HideButtonSaveAndCancel()
+		public void SetData(byte[] data)
+		{
+			this.data = data;
+		}
+
+		public void HideButtonSaveAndCancel()
     {
       this.buttonSave.Hide();
       this.buttonCancel.Hide();
     }
-
-    bool lastPictureSet = false;
 
     public SignEditorControl()
     {
@@ -79,15 +85,18 @@ namespace FontEditor
 
     private void Picture_Paint(object sender, PaintEventArgs e)
     {
+				/// Draw grid
       Graphics g = e.Graphics;
       for (int x = 0; x <= Sign.SignWidth; x++)
         g.DrawLine(Pens.DarkGray, x * Sign.CellSize, 0, x * Sign.CellSize, Sign.CellSize * Sign.SignHeight);
       for (int y = 0; y <= Sign.SignHeight; y++)
         g.DrawLine(Pens.DarkGray, 0, y * Sign.CellSize, Sign.CellSize * Sign.SignWidth, y * Sign.CellSize);
 
+				/// Draw pixels
       for (int x = 0; x < Sign.SignWidth; x++)
         for (int y = 0; y < Sign.SignHeight; y++)
-          if ((data[y] & (1UL << (Sign.SignWidth - x - 1))) != 0)
+          //if ((data[y] & (1UL << (Sign.SignWidth - x - 1))) != 0)
+					if (GetPixel(x, y))
             g.FillRectangle(Brushes.Black, x * Sign.CellSize + 1, y * Sign.CellSize + 1,
                 Sign.CellSize - 2, Sign.CellSize - 2);
     }
@@ -126,9 +135,9 @@ namespace FontEditor
         return;
 
       if (set)
-        data[y] |= 1UL << (Sign.SignWidth - x - 1);
+        data[y] |= (byte)(1UL << (Sign.SignWidth - x - 1));
       else
-        data[y] &= 0xffffffffUL ^ (1UL << (Sign.SignWidth - x - 1));
+        data[y] &= (byte)(0xffffffffUL ^ (1UL << (Sign.SignWidth - x - 1)));
     }
 
     void DrawOverview16()
@@ -215,20 +224,20 @@ namespace FontEditor
     private void ButtonLeft_Click(object sender, EventArgs e)
     {
       for (int y = 0; y < Sign.SignHeight; y++)
-        data[y] = (data[y] << 1) | (data[y] >> (Sign.SignWidth - 1));
+        data[y] = (byte)((data[y] << 1) | (data[y] >> (Sign.SignWidth - 1)));
       UpdatePreview();
     }
 
     private void ButtonRight_Click(object sender, EventArgs e)
     {
       for (int y = 0; y < Sign.SignHeight; y++)
-        data[y] = (data[y] >> 1) | (data[y] << (Sign.SignWidth - 1));
+        data[y] = (byte)((data[y] >> 1) | (data[y] << (Sign.SignWidth - 1)));
       UpdatePreview();
     }
 
     private void ButtonTop_Click(object sender, EventArgs e)
     {
-      ulong tmp = data[0];
+      byte tmp = data[0];
       for (int y = 1; y < Sign.SignHeight; y++)
         data[y - 1] = data[y];
       data[Sign.SignHeight - 1] = tmp;
@@ -237,30 +246,31 @@ namespace FontEditor
 
     private void ButtonBottom_Click(object sender, EventArgs e)
     {
-      ulong tmp = data[Sign.SignHeight - 1];
+      byte tmp = data[Sign.SignHeight - 1];
       for (int y = Sign.SignHeight - 2; y >= 0; y--)
         data[y + 1] = data[y];
       data[0] = tmp;
       UpdatePreview();
     }
 
-    public static string Export(ulong[] data, bool divide, bool addFontWidthAtEnd, bool verticalDataOrientation)
+    public static string Export(byte[] data, bool divide, bool addFontWidthAtEnd,
+    		bool verticalDataOrientation)
     {
-      ulong[] data_ = new ulong[data.Length];
+      byte[] data_ = new byte[data.Length];
       Array.Copy(data, data_, data.Length);
       for (int i = 0; i < data_.Length; i++)
-        data_[i] &= (1UL << Sign.SignWidth) - 1UL;
+        data_[i] &= (byte)((1UL << Sign.SignWidth) - 1UL);
 
       int height = Sign.SignHeight;
       if (verticalDataOrientation)
       {
-        ulong[] vdata = new ulong[data.Length];
+        byte[] vdata = new byte[data.Length];
         for (int x = 0; x < Sign.SignHeight; x++)
           for (int y = 0; y < Sign.SignWidth; y++)
             if (Sign.SignWidth - y - 1 >= 0)
           {
             bool bit = (data_[x] & (1UL << y)) != 0;
-            vdata[Sign.SignWidth - y - 1] |= (bit ? 1UL : 0UL) << x;
+            vdata[Sign.SignWidth - y - 1] |= (byte)((bit ? 1UL : 0UL) << x);
           }
         data_ = vdata;
         height = Sign.SignWidth;

@@ -29,7 +29,7 @@ namespace FontEditor
 			cbColors.Items.Add(new ComboBoxItem(16, "16"));
 			cbColors.SelectedIndex = 3; // $$
 
-			logoEditor.data = new ulong[255];
+			logoEditor.SetData(new byte[SignEditorControl.DataSize]);
 			logoEditor.ButtonClearText = "Clear";
 			logoEditor.ButtonInvertText = "Invert";
 			canUpdateControls = true;
@@ -110,7 +110,7 @@ namespace FontEditor
 			canUpdateControls = false;
 			FontItem item = (FontItem)listBox.SelectedItem;
 			this.textBoxName.Text = item.name;
-			logoEditor.data = item.data;
+			logoEditor.SetData(item.data);
 			logoEditor.UpdatePreview();
 			logoEditor.UpdateControlSize();
 			canUpdateControls = true;
@@ -149,9 +149,9 @@ namespace FontEditor
 			listBox.SelectedIndex = Math.Min(ix, listBox.Items.Count - 1);
 		}
 
-		bool IsArrayEmpty(ulong[] array)
+		bool IsArrayEmpty(byte[] array)
 		{
-			foreach (ulong item in array)
+			foreach (byte item in array)
 				if (item != 0)
 					return false;
 			return true;
@@ -192,7 +192,7 @@ namespace FontEditor
 
 				string name = "";
 				FontItem item = new FontItem();
-				Array.Resize(ref item.data, 255);
+				Array.Resize(ref item.data, SignEditorControl.DataSize);
 				int dataIndex = 0;
 
 				int l = 0;
@@ -225,7 +225,7 @@ namespace FontEditor
 						name = "";
 						dataIndex = 0;
 						item = new FontItem();
-						Array.Resize(ref item.data, 255);
+						Array.Resize(ref item.data, SignEditorControl.DataSize);
 					}
 					l++;
 				}
@@ -350,19 +350,19 @@ namespace FontEditor
 			for (int y = 0; y < Sign.SignHeight; y++)
 				for (int x = 0; x < Sign.SignWidth; x++)
 					if (bitmap.GetPixel(x, y).R >= limit)
-						item.data[y] |= 1U << (16 - 1 - x);
+						item.data[y] |= (byte)(1U << (16 - 1 - x));
 
 			TrimCharLeft(item.data);
 		}
 
-		void TrimCharLeft(ulong[] data)
+		void TrimCharLeft(byte[] data)
 		{
 			for (int y = 0; y < Sign.SignHeight; y++)
 				if (IsLineEmpty(data, 0))
 					ShiftLeft(data);
 		}
 
-		bool IsLineEmpty(ulong[] data, int x)
+		bool IsLineEmpty(byte[] data, int x)
 		{
 			for (int y = 0; y < Sign.SignHeight; y++)
 				if (((data[y] >> (16 - 1 - x)) & 0x01) > 0)
@@ -371,10 +371,10 @@ namespace FontEditor
 			return true;
 		}
 
-		void ShiftLeft(ulong[] data)
+		void ShiftLeft(byte[] data)
 		{
 			for (int y = 0; y < Sign.SignHeight; y++)
-				data[y] = data[y] << 1;
+				data[y] = (byte)(data[y] << 1);
 		}
 
 		private void BtnGenerateFonts_Click(object sender, EventArgs e)

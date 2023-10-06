@@ -78,13 +78,13 @@ namespace FontEditor
       return sb.ToString().TrimEnd(' ').TrimEnd(',');
     }
 
-    public static string ArrayToHexString(ushort[] list, bool divide, int length = 0)
+    public static string ArrayToHexString(byte[] list, bool divide, int length = 0)
     {
       if (length == 0)
         length = list.Length;
       StringBuilder sb = new StringBuilder();
       int count = 0;
-      foreach (ushort b in list)
+      foreach (byte b in list)
       {
         string s = "0x" + b.ToString("x4") + ", ";
         count++;
@@ -96,12 +96,12 @@ namespace FontEditor
         sb.Append(s);
       }
       string s_ = sb.ToString();
-      if (s_.EndsWith(Environment.NewLine))
+      if (s_.EndsWith(Environment.NewLine, StringComparison.CurrentCulture))
         s_ = s_.Substring(0, s_.Length - Environment.NewLine.Length);
       return s_.TrimEnd(' ').TrimEnd(',');
     }
 
-    public static string ArrayToHexString(ulong[] list, bool divide, int length = 0, int digits = 16)
+    public static string ArrayToHexString(byte[] list, bool divide, int length = 0, int digits = 16)
     {
       if (length == 0)
         length = list.Length;
@@ -121,7 +121,7 @@ namespace FontEditor
           break;
       }
       string s_ = sb.ToString();
-      if (s_.EndsWith(Environment.NewLine))
+      if (s_.EndsWith(Environment.NewLine, StringComparison.CurrentCulture))
         s_ = s_.Substring(0, s_.Length - Environment.NewLine.Length);
       return s_.TrimEnd(' ').TrimEnd(',');
     }
@@ -137,7 +137,7 @@ namespace FontEditor
     public static string GetBeginningStringInArray(List<string> list, string beginString)
     {
       foreach (string s in list)
-        if (s.IndexOf(beginString) == 0)
+        if (s.IndexOf(beginString, StringComparison.CurrentCulture) == 0)
           return s;
       return "";
     }
@@ -326,7 +326,22 @@ namespace FontEditor
       return array.ToArray();
     }
 
-    public static string SizeToKMG_Size(int a)
+		//public static byte[] HexStringToByteArray(string s)
+		//{
+		//	List<byte> array = new List<byte>();
+		//	s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
+		//	string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+		//	foreach (string word in words)
+		//	{
+		//		byte us;
+		//		if (!ParseULongOrHex(word, out us))
+		//			return new byte[0];
+		//		array.Add(us);
+		//	}
+		//	return array.ToArray();
+		//}
+
+		public static string SizeToKMG_Size(int a)
     {
       if (a < 1024)
         return a.ToString() + " B";
