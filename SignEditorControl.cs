@@ -296,5 +296,15 @@ namespace FontEditor
       Array.Copy(array, fontItem.data, array.Length);
       UpdatePreview();
     }
-  }
+
+		private void BtnCopy_Click(object sender, EventArgs e)
+		{
+      CopyToClipboard(false, false);
+		}
+
+		private void BtnPaste_Click(object sender, EventArgs e)
+		{
+      PasteFromClipboard();
+		}
+	}
 }
