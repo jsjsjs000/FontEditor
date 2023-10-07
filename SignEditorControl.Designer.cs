@@ -41,9 +41,9 @@
 			this.buttonRight = new System.Windows.Forms.Button();
 			this.labelInfo = new System.Windows.Forms.Label();
 			this.panelRight = new System.Windows.Forms.Panel();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.btnPaste = new System.Windows.Forms.Button();
 			this.btnCopy = new System.Windows.Forms.Button();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			((System.ComponentModel.ISupportInitialize)(this.picture)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureOverview16)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureOverview32)).BeginInit();
@@ -94,7 +94,7 @@
 			this.buttonCancel.Location = new System.Drawing.Point(6, 209);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(126, 25);
-			this.buttonCancel.TabIndex = 6;
+			this.buttonCancel.TabIndex = 9;
 			this.buttonCancel.Text = "Cancel";
 			// 
 			// buttonSave
@@ -103,7 +103,7 @@
 			this.buttonSave.Location = new System.Drawing.Point(6, 236);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(126, 25);
-			this.buttonSave.TabIndex = 7;
+			this.buttonSave.TabIndex = 10;
 			this.buttonSave.Text = "Save";
 			// 
 			// pictureOverview32
@@ -119,7 +119,7 @@
 			this.buttonTop.Location = new System.Drawing.Point(54, 124);
 			this.buttonTop.Name = "buttonTop";
 			this.buttonTop.Size = new System.Drawing.Size(25, 25);
-			this.buttonTop.TabIndex = 2;
+			this.buttonTop.TabIndex = 4;
 			this.buttonTop.Text = "▲";
 			this.buttonTop.Click += new System.EventHandler(this.ButtonTop_Click);
 			// 
@@ -128,7 +128,7 @@
 			this.buttonBottom.Location = new System.Drawing.Point(54, 153);
 			this.buttonBottom.Name = "buttonBottom";
 			this.buttonBottom.Size = new System.Drawing.Size(25, 25);
-			this.buttonBottom.TabIndex = 4;
+			this.buttonBottom.TabIndex = 6;
 			this.buttonBottom.Text = "▼";
 			this.buttonBottom.Click += new System.EventHandler(this.ButtonBottom_Click);
 			// 
@@ -137,7 +137,7 @@
 			this.buttonLeft.Location = new System.Drawing.Point(23, 140);
 			this.buttonLeft.Name = "buttonLeft";
 			this.buttonLeft.Size = new System.Drawing.Size(25, 25);
-			this.buttonLeft.TabIndex = 3;
+			this.buttonLeft.TabIndex = 5;
 			this.buttonLeft.Text = "◄";
 			this.buttonLeft.Click += new System.EventHandler(this.ButtonLeft_Click);
 			// 
@@ -146,7 +146,7 @@
 			this.buttonRight.Location = new System.Drawing.Point(85, 140);
 			this.buttonRight.Name = "buttonRight";
 			this.buttonRight.Size = new System.Drawing.Size(25, 25);
-			this.buttonRight.TabIndex = 5;
+			this.buttonRight.TabIndex = 7;
 			this.buttonRight.Text = "►";
 			this.buttonRight.Click += new System.EventHandler(this.ButtonRight_Click);
 			// 
@@ -179,7 +179,25 @@
 			this.panelRight.Location = new System.Drawing.Point(266, 3);
 			this.panelRight.Name = "panelRight";
 			this.panelRight.Size = new System.Drawing.Size(135, 264);
-			this.panelRight.TabIndex = 9;
+			this.panelRight.TabIndex = 0;
+			// 
+			// btnPaste
+			// 
+			this.btnPaste.Location = new System.Drawing.Point(69, 95);
+			this.btnPaste.Name = "btnPaste";
+			this.btnPaste.Size = new System.Drawing.Size(60, 25);
+			this.btnPaste.TabIndex = 3;
+			this.btnPaste.Text = "Paste";
+			this.btnPaste.Click += new System.EventHandler(this.BtnPaste_Click);
+			// 
+			// btnCopy
+			// 
+			this.btnCopy.Location = new System.Drawing.Point(6, 95);
+			this.btnCopy.Name = "btnCopy";
+			this.btnCopy.Size = new System.Drawing.Size(60, 25);
+			this.btnCopy.TabIndex = 2;
+			this.btnCopy.Text = "Copy";
+			this.btnCopy.Click += new System.EventHandler(this.BtnCopy_Click);
 			// 
 			// flowLayoutPanel1
 			// 
@@ -191,24 +209,6 @@
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(404, 270);
 			this.flowLayoutPanel1.TabIndex = 10;
-			// 
-			// btnPaste
-			// 
-			this.btnPaste.Location = new System.Drawing.Point(69, 95);
-			this.btnPaste.Name = "btnPaste";
-			this.btnPaste.Size = new System.Drawing.Size(60, 25);
-			this.btnPaste.TabIndex = 10;
-			this.btnPaste.Text = "Paste";
-			this.btnPaste.Click += new System.EventHandler(this.BtnPaste_Click);
-			// 
-			// btnCopy
-			// 
-			this.btnCopy.Location = new System.Drawing.Point(6, 95);
-			this.btnCopy.Name = "btnCopy";
-			this.btnCopy.Size = new System.Drawing.Size(60, 25);
-			this.btnCopy.TabIndex = 9;
-			this.btnCopy.Text = "Copy";
-			this.btnCopy.Click += new System.EventHandler(this.BtnCopy_Click);
 			// 
 			// SignEditorControl
 			// 
