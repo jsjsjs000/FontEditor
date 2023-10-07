@@ -18,7 +18,6 @@ namespace FontEditor
 		public int Colors = 2;
 		public int CellSize = 16;
 
-		//byte[,] data = new byte[MaxSize, MaxSize];
 		FontItem fontItem;
 		bool lastPictureSet = false;
 
@@ -70,7 +69,7 @@ namespace FontEditor
       }
     }
 
-		public void SetData(FontItem fontItem)
+		public void SetFontItem(FontItem fontItem)
 		{
 			this.fontItem = fontItem;
 		}

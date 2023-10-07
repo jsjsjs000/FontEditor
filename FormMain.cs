@@ -29,7 +29,7 @@ namespace FontEditor
 			cbColors.Items.Add(new ComboBoxItem(16, "16"));
 			cbColors.SelectedIndex = 3; // $$
 
-			logoEditor.SetData(new FontItem());
+			logoEditor.SetFontItem(new FontItem());
 			logoEditor.ButtonClearText = "Clear";
 			logoEditor.ButtonInvertText = "Invert";
 			canUpdateControls = true;
@@ -110,7 +110,7 @@ namespace FontEditor
 			canUpdateControls = false;
 			FontItem item = (FontItem)listBox.SelectedItem;
 			this.textBoxName.Text = item.name;
-			logoEditor.SetData(item);
+			logoEditor.SetFontItem(item);
 			logoEditor.UpdatePreview();
 			logoEditor.UpdateControlSize();
 			canUpdateControls = true;
