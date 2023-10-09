@@ -183,7 +183,7 @@ namespace FontEditor
 				return;
 			}
 
-			ImportExport.Import(s, items, listBox.Items, cbVerticalDataOrientation.Checked);
+			SignEditorControl.Import(s, items, listBox.Items, cbVerticalDataOrientation.Checked);
 
 			canUpdateControls = true;
 			listBox.SelectedIndex = listBox.Items.Count - 1;
@@ -202,8 +202,9 @@ namespace FontEditor
 					s += "[ ";
 				if (brackets && !python)
 					s += "{ ";
-				s += ImportExport.ExportChar(item.data, false, cbAddFontWidthAtEnd.Checked,
+				string s_ = logoEditor.ExportChar(true, cbAddFontWidthAtEnd.Checked,
 						cbVerticalDataOrientation.Checked);
+				s += s_.Replace(Environment.NewLine, Environment.NewLine + "\t");
 				if (brackets && python)
 					s += " ]";
 				if (brackets && !python)
@@ -239,96 +240,14 @@ namespace FontEditor
 			return true;
 		}
 
-		void GenerateFontChars(string fontFamily, float fontSize, bool bold, bool italic, int offsetY,
-				bool fontInterpolate, byte limit, string chars)
-		{
-			ClearAll();
-			RemoveAllNewItems();
-
-			Bitmap bitmap = new Bitmap(128, 128);
-			Graphics graphic = Graphics.FromImage(bitmap);
-			if (fontInterpolate)
-			{
-				graphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bicubic;
-				graphic.TextContrast = 0;
-				graphic.TextRenderingHint = TextRenderingHint.AntiAlias;
-			}
-
-			FontStyle fontStyle = FontStyle.Regular;
-			if (bold)
-			{
-				fontStyle |= FontStyle.Bold;
-				fontStyle &= ~FontStyle.Regular;
-			}
-			if (italic)
-			{
-				fontStyle |= FontStyle.Italic;
-				fontStyle &= ~FontStyle.Regular;
-			}
-			Font font = new Font(fontFamily, fontSize, fontStyle);
-			Point offset = new Point(0, offsetY);
-
-			foreach (char c in chars)
-			{
-				FontItem item = new FontItem
-				{
-					name = string.Format("{0} - {1} 0x{2:x2}", c.ToString(), (uint)c, (uint)c),
-				};
-				//$$$Array.Resize(ref item.data, 255);
-				items.Add(item);
-				listBox.Items.Add(item);
-				GenerateFontChar(font, graphic, bitmap, item, offset, limit, c);
-			}
-
-			font.Dispose();
-			graphic.Dispose();
-			bitmap.Dispose();
-		}
-
-		void GenerateFontChar(Font font, Graphics graphics, Bitmap bitmap, FontItem item, Point offset, byte limit, char c)
-		{
-			graphics.FillRectangle(Brushes.Black, 0, 0, bitmap.Width, bitmap.Height);
-			graphics.DrawString(c.ToString(), font, Brushes.White, offset);
-
-			for (int y = 0; y < logoEditor.SignHeight; y++)
-				for (int x = 0; x < logoEditor.SignWidth; x++)
-					if (bitmap.GetPixel(x, y).R >= limit)
-						item.data[x, y] = 1;
-						//item.data[x, y] |= (byte)(1U << (16 - 1 - x));
-
-			TrimCharLeft(item.data);
-		}
-
-		void TrimCharLeft(byte[,] data)
-		{
-			for (int y = 0; y < logoEditor.SignHeight; y++)
-				if (IsLineEmpty(data, 0))
-					ShiftLeft(data);
-		}
-
-		bool IsLineEmpty(byte[,] data, int x)
-		{
-			//for (int y = 0; y < Sign.SignHeight; y++)
-				//if (logoEditor.GetPixel(0, y))
-				//$$if (((data[y] >> (16 - 1 - x)) & 0x01) > 0)
-					return false;
-
-			//return true;
-		}
-
-		void ShiftLeft(byte[,] data)
-		{
-			//$$$for (int y = 0; y < Sign.SignHeight; y++)
-				//data[y] = (byte)(data[y] << 1);
-		}
-
 		private void BtnGenerateFonts_Click(object sender, EventArgs e)
 		{
 			int i = listBox.SelectedIndex;
 			canUpdateControls = false;
 
-			GenerateFontChars(cbFonts.Text, float.Parse(cbFontSize.Text), cbBold.Checked, cbItalic.Checked,
-					(int)nudOffsetY.Value, cbFontInterpolate.Checked, (byte)nudLimit.Value, tbGenerateChars.Text);
+			GenerateFontChars(cbFonts.Text, float.Parse(cbFontSize.Text),
+					cbBold.Checked, cbItalic.Checked, (int)nudOffsetY.Value, cbFontInterpolate.Checked,
+					(byte)nudLimit.Value, tbGenerateChars.Text);
 
 			canUpdateControls = true;
 			//if (i >= 0 && i < listBox.Items.Count) $$

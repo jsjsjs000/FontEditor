@@ -468,7 +468,7 @@
 			this.nudLimit.Size = new System.Drawing.Size(54, 21);
 			this.nudLimit.TabIndex = 6;
 			this.nudLimit.Value = new decimal(new int[] {
-            128,
+            64,
             0,
             0,
             0});

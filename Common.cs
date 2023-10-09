@@ -185,7 +185,31 @@ namespace FontEditor
       return -1;
     }
 
-    public static bool ParseIntOrHex(string s, out ushort value)
+		public static bool ParseByteOrHex(string s, out byte value)
+		{
+			byte a;
+			s = s.Trim();
+
+			if (s.Length > 2 && s[0] == '0' && s[1] == 'x')
+			{
+				s = s.Substring(2, s.Length - 2);
+				if (byte.TryParse(s, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out a))
+				{
+					value = a;
+					return true;
+				}
+			}
+			else if (byte.TryParse(s, out a))
+			{
+				value = a;
+				return true;
+			}
+
+			value = 0;
+			return false;
+		}
+
+		public static bool ParseIntOrHex(string s, out ushort value)
     {
       ushort a;
       s = s.Trim();
@@ -276,25 +300,25 @@ namespace FontEditor
       return t;
     }
 
-    public static byte[,] HexStringToByteArray(string s)
-    {
-      if (s.Length % 2 != 0)
-        return new byte[0, 0];
+    //public static byte[,] HexStringToByteArray(string s)
+    //{
+    //  if (s.Length % 2 != 0)
+    //    return new byte[0, 0];
 
-      byte[,] result = new byte[s.Length / 2, 0]; // $$$
-      for (int i = 0; i < s.Length; i++)
-      {
-        byte a;
-        if (!byte.TryParse(s[i].ToString(), NumberStyles.HexNumber, CultureInfo.CurrentCulture, out a))
-          return new byte[0, 0];
-        //if (i % 2 == 0) $$$
-        //  result[i / 2] = (byte)(a << 4);
-        //else
-          //result[i / 2] |= a;
-      }
+    //  byte[,] result = new byte[s.Length / 2, 0]; // $$$
+    //  for (int i = 0; i < s.Length; i++)
+    //  {
+    //    byte a;
+    //    if (!byte.TryParse(s[i].ToString(), NumberStyles.HexNumber, CultureInfo.CurrentCulture, out a))
+    //      return new byte[0, 0];
+    //    //if (i % 2 == 0) $$$
+    //    //  result[i / 2] = (byte)(a << 4);
+    //    //else
+    //      //result[i / 2] |= a;
+    //  }
 
-      return result;
-    }
+    //  return result;
+    //}
 
     //public static ushort[] HexStringToUshortArray(string s)
     //{
@@ -326,20 +350,52 @@ namespace FontEditor
     //  return array.ToArray();
     //}
 
-		//public static byte[] HexStringToByteArray(string s)
-		//{
-		//	List<byte> array = new List<byte>();
-		//	s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
-		//	string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-		//	foreach (string word in words)
-		//	{
-		//		byte us;
-		//		if (!ParseULongOrHex(word, out us))
-		//			return new byte[0];
-		//		array.Add(us);
-		//	}
-		//	return array.ToArray();
-		//}
+		public static byte[] HexStringToByteArray(string s)
+		{
+			List<byte> array = new List<byte>();
+			s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
+			string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+			foreach (string word in words)
+			{
+				if (!ParseByteOrHex(word, out byte us))
+					return new byte[0];
+				array.Add(us);
+			}
+			return array.ToArray();
+		}
+
+		public static byte[,] HexStringToByteArray(string s, int width, int height)
+		{
+		  if (s.Length % 2 != 0)
+		    return new byte[0, 0];
+
+			byte[,] array = new byte[width, height];
+			s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
+			string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+			//int i = 0;
+			int x = 0;
+			int y = 0;
+			foreach (string word in words)
+			{
+				if (!ParseByteOrHex(word, out byte a))
+					return new byte[0, 0];
+
+				if (x % 2 == 0)
+					array[x / 2, y] = (byte)(a << 4);
+				else
+					array[x / 2, y] |= a;
+
+				x = (x + 1) % width;
+				if (x == 0)
+					y++;
+				//if (i % 2 == 0)
+				//  array[i / 2] = (byte)(a << 4);
+				//else
+				//array[i / 2] |= a;
+			}
+			return array;
+		}
 
 		public static string SizeToKMG_Size(int a)
     {

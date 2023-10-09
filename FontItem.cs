@@ -40,8 +40,10 @@ namespace FontEditor
 				comment = s.Substring(commentIx + 2, s.Length - commentIx - 2).Trim(' ', '\t');
 			}
 
-			FontItem item = new FontItem();
-			item.data = Common.HexStringToByteArray(values);
+			FontItem item = new FontItem
+			{
+				//data = Common.HexStringToByteArray(values),
+			};
 
 			if (verticalDataOrientation)
 			{

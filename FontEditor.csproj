@@ -80,6 +80,7 @@
     <EmbeddedResource Include="SignEditorControl.resx">
       <DependentUpon>SignEditorControl.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="GenerateFonts.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
