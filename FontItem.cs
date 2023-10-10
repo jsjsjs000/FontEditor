@@ -14,7 +14,8 @@ namespace FontEditor
 			return name;
 		}
 
-		public static FontItem Import(string s, bool verticalDataOrientation)
+		public static FontItem ImportChar(string s, bool verticalDataOrientation,
+				int Width, int Height, int Colors)
 		{
 				/// { 0x1234, 0x1234, 0x1234, 0x1234, 0x1234, 0x1234, 0x1234, 0x1234 }
 			s = s.Trim(' ', '\t');
@@ -40,10 +41,27 @@ namespace FontEditor
 				comment = s.Substring(commentIx + 2, s.Length - commentIx - 2).Trim(' ', '\t');
 			}
 
-			FontItem item = new FontItem
+			FontItem item = new FontItem();
+
+			byte[,] array = new byte[0, 0];
+			if (Colors == 16)
 			{
-				//data = Common.HexStringToByteArray(values),
-			};
+				array = Common.HexStringToByteArray(values, Width * 8 / Colors, Height);
+				for (int y = 0; y < array.GetLength(1); y++)
+					for (int x = 0; x < array.GetLength(0); x++)
+					{
+						item.data[x * 2,     y] = (byte)(array[x, y] >> 4);
+						item.data[x * 2 + 1, y] = (byte)(array[x, y] & 0x0f);
+					}
+			}
+			else if (Colors == 2)
+			{
+				array = Common.HexStringToByteArray(values, Width / 8, Height);
+				for (int y = 0; y < Height; y++)
+					for (int x = 0; x < Width; x++)
+						if ((array[x / 8, y] & (1 << (x % 8))) != 0)
+							item.data[x, y] = 16 - 1;
+			}
 
 			if (verticalDataOrientation)
 			{

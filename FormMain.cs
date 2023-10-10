@@ -24,10 +24,10 @@ namespace FontEditor
 			nudWidth.Value = 16;
 			nudHeight.Value = 16;
 			cbColors.Items.Add(new ComboBoxItem(2, "2"));
-			cbColors.Items.Add(new ComboBoxItem(4, "4"));
-			cbColors.Items.Add(new ComboBoxItem(8, "8"));
+			//cbColors.Items.Add(new ComboBoxItem(4, "4"));
+			//cbColors.Items.Add(new ComboBoxItem(8, "8"));
 			cbColors.Items.Add(new ComboBoxItem(16, "16"));
-			cbColors.SelectedIndex = 3; // $$
+			cbColors.SelectedIndex = 0; // $$
 
 			logoEditor.SetFontItem(new FontItem());
 			logoEditor.ButtonClearText = "Clear";
@@ -183,13 +183,13 @@ namespace FontEditor
 				return;
 			}
 
-			SignEditorControl.Import(s, items, listBox.Items, cbVerticalDataOrientation.Checked);
+			ImportAll(s, items, listBox.Items, cbVerticalDataOrientation.Checked);
 
 			canUpdateControls = true;
 			listBox.SelectedIndex = listBox.Items.Count - 1;
 		}
 
-		private void ButtonSaveTo_Click(object sender, EventArgs e)
+		private void ButtonSaveAll_Click(object sender, EventArgs e)
 		{
 			bool python = cbPythonMode.Checked;
 			bool brackets = cbArrayBrackets.Checked;
@@ -202,9 +202,11 @@ namespace FontEditor
 					s += "[ ";
 				if (brackets && !python)
 					s += "{ ";
+
 				string s_ = logoEditor.ExportChar(true, cbAddFontWidthAtEnd.Checked,
 						cbVerticalDataOrientation.Checked);
 				s += s_.Replace(Environment.NewLine, Environment.NewLine + "\t");
+
 				if (brackets && python)
 					s += " ]";
 				if (brackets && !python)

@@ -44,7 +44,7 @@
 			this.buttonAdd = new System.Windows.Forms.Button();
 			this.buttonRemove = new System.Windows.Forms.Button();
 			this.buttonLoadAll = new System.Windows.Forms.Button();
-			this.buttonSaveTo = new System.Windows.Forms.Button();
+			this.buttonSaveAll = new System.Windows.Forms.Button();
 			this.buttonClearAll = new System.Windows.Forms.Button();
 			this.listBox = new System.Windows.Forms.ListBox();
 			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
@@ -221,6 +221,7 @@
 			this.cbVerticalDataOrientation.TabIndex = 6;
 			this.cbVerticalDataOrientation.Text = "Vertical data orientation";
 			this.cbVerticalDataOrientation.UseVisualStyleBackColor = true;
+			this.cbVerticalDataOrientation.Visible = false;
 			// 
 			// flowLayoutPanel4
 			// 
@@ -230,7 +231,7 @@
 			this.flowLayoutPanel4.Controls.Add(this.buttonAdd);
 			this.flowLayoutPanel4.Controls.Add(this.buttonRemove);
 			this.flowLayoutPanel4.Controls.Add(this.buttonLoadAll);
-			this.flowLayoutPanel4.Controls.Add(this.buttonSaveTo);
+			this.flowLayoutPanel4.Controls.Add(this.buttonSaveAll);
 			this.flowLayoutPanel4.Controls.Add(this.buttonClearAll);
 			this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 			this.flowLayoutPanel4.Location = new System.Drawing.Point(742, 262);
@@ -283,14 +284,14 @@
 			// 
 			// buttonSaveTo
 			// 
-			this.buttonSaveTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonSaveTo.Location = new System.Drawing.Point(3, 111);
-			this.buttonSaveTo.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-			this.buttonSaveTo.Name = "buttonSaveTo";
-			this.buttonSaveTo.Size = new System.Drawing.Size(140, 25);
-			this.buttonSaveTo.TabIndex = 5;
-			this.buttonSaveTo.Text = "Save all to clipboard";
-			this.buttonSaveTo.Click += new System.EventHandler(this.ButtonSaveTo_Click);
+			this.buttonSaveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonSaveAll.Location = new System.Drawing.Point(3, 111);
+			this.buttonSaveAll.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+			this.buttonSaveAll.Name = "buttonSaveTo";
+			this.buttonSaveAll.Size = new System.Drawing.Size(140, 25);
+			this.buttonSaveAll.TabIndex = 5;
+			this.buttonSaveAll.Text = "Save all to clipboard";
+			this.buttonSaveAll.Click += new System.EventHandler(this.ButtonSaveAll_Click);
 			// 
 			// buttonClearAll
 			// 
@@ -569,7 +570,7 @@
     private System.Windows.Forms.Button buttonAdd;
     private System.Windows.Forms.Button buttonRemove;
     private System.Windows.Forms.Button buttonLoadAll;
-    private System.Windows.Forms.Button buttonSaveTo;
+    private System.Windows.Forms.Button buttonSaveAll;
     private System.Windows.Forms.CheckBox cbArrayBrackets;
     private System.Windows.Forms.CheckBox cbAddFontWidthAtEnd;
 		private System.Windows.Forms.Button buttonClearAll;

@@ -318,15 +318,32 @@ namespace FontEditor
 
 		public string ExportChar(bool divide, bool addFontWidthAtEnd, bool verticalDataOrientation)
 		{
-			byte[] data_ = new byte[SignWidth * 8 / Colors * SignHeight];
-			int i = 0;
-			for (int y = 0; y < SignHeight; y++)
-				for (int x = 0; x < SignWidth; x += 2)
-				{
-					byte c1 = GetPixel(x, y);
-					byte c2 = GetPixel(x + 1, y);
-					data_[i++] = (byte)((c1 << 4) | c2);
-				}
+			byte[] data_ = new byte[0];
+			if (Colors == 16)
+			{
+				data_ = new byte[SignWidth * 8 / Colors * SignHeight];
+				int i = 0;
+				for (int y = 0; y < SignHeight; y++)
+					for (int x = 0; x < SignWidth; x += 2)
+					{
+						byte c1 = GetPixel(x, y);
+						byte c2 = GetPixel(x + 1, y);
+						data_[i++] = (byte)((c1 << 4) | c2);
+					}
+			}
+			else if (Colors == 2)
+			{
+				data_ = new byte[SignWidth / 8 * SignHeight];
+				int i = 0;
+				for (int y = 0; y < SignHeight; y++)
+					for (int x = 0; x < SignWidth; x++)
+					{
+						if (GetPixel2(x, y))
+							data_[i] |= (byte)(1 << (x % 8));
+						if (x % 8 == 7)
+							i++;
+					}
+			}
 
 			//int height = Sign.SignHeight;
 			//if (verticalDataOrientation)
@@ -403,9 +420,27 @@ namespace FontEditor
 				return;
       }
 
-			byte[,] array = Common.HexStringToByteArray(s, SignWidth * 8 / Colors, SignHeight);
-      Array.Copy(array, fontItem.data, array.Length);
-      UpdatePreview();
+			byte[,] array = new byte[0, 0];
+			if (Colors == 16)
+			{
+				array = Common.HexStringToByteArray(s, SignWidth * 8 / Colors, SignHeight);
+				for (int y = 0; y < array.GetLength(1); y++)
+					for (int x = 0; x < array.GetLength(0); x++)
+					{
+						fontItem.data[x * 2,     y] = (byte)(array[x, y] >> 4);
+						fontItem.data[x * 2 + 1, y] = (byte)(array[x, y] & 0x0f);
+					}
+			}
+			else if (Colors == 2)
+			{
+				array = Common.HexStringToByteArray(s, SignWidth / 8, SignHeight);
+				for (int y = 0; y < SignHeight; y++)
+					for (int x = 0; x < SignWidth; x++)
+						if ((array[x / 8, y] & (1 << (x % 8))) != 0)
+							fontItem.data[x, y] = 16 - 1;
+			}
+
+			UpdatePreview();
     }
 
 		private void BtnCopy_Click(object sender, EventArgs e)

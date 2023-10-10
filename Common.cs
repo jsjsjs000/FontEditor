@@ -381,10 +381,11 @@ namespace FontEditor
 				if (!ParseByteOrHex(word, out byte a))
 					return new byte[0, 0];
 
-				if (x % 2 == 0)
-					array[x / 2, y] = (byte)(a << 4);
-				else
-					array[x / 2, y] |= a;
+				//if (x % 2 == 0)
+				//	array[x / 2, y] = (byte)(a << 4);
+				//else
+				//array[x / 2, y] |= a;
+				array[x, y] = a;
 
 				x = (x + 1) % width;
 				if (x == 0)

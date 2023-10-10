@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace FontEditor
 {
-	public partial class SignEditorControl
+	public partial class FormMain
 	{
 		//public string ExportChar(bool divide, bool addFontWidthAtEnd,
 		//		bool verticalDataOrientation)
@@ -63,11 +63,25 @@ namespace FontEditor
 		//	return s;
 		//}
 
-		public static void Import(string s, List<FontItem> items, ListBox.ObjectCollection Items,
+		public void ImportAll(string s, List<FontItem> items, ListBox.ObjectCollection Items,
 				bool verticalDataOrientation)
 		{
 			string[] lines = s.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-			if (lines.Length > 1 && lines[0].Contains("\t// @"))
+
+			List<string> linesList = new List<string>() { "" };
+			foreach (string line in lines)
+				if (!line.Contains("//"))
+					linesList[linesList.Count - 1] += Environment.NewLine + line;
+				else
+				{
+					linesList[linesList.Count - 1] += Environment.NewLine + line;
+					linesList.Add("");
+				}
+
+			//lines = s.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+			lines = linesList.ToArray();
+
+			if (lines.Length > 1 && lines[0].Contains(" // @"))
 			{
 				///  // @0 'A' (13 pixels wide)
 				///  0x07, 0x00, //      ###     
@@ -82,7 +96,9 @@ namespace FontEditor
 				foreach (string line_ in lines)
 				{
 					string line = line_.Trim();
-					if (line.IndexOf("// @", StringComparison.CurrentCulture) == 0)
+					line = line.Replace('\t', ' ');
+					line = line.Replace(Environment.NewLine, " ");
+					if (line.IndexOf("// ", StringComparison.CurrentCulture) == 0)
 					{
 						name = "";
 						int i = line.IndexOf('\'');
@@ -115,13 +131,20 @@ namespace FontEditor
 			}
 			else
 			{
-				foreach (string line in s.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+				foreach (string line_ in lines)
 				{
-					FontItem item = FontItem.Import(line, verticalDataOrientation);
-					if (item != null)
+					string line = line_.Trim();
+					line = line.Replace('\t', ' ');
+					line = line.Replace(Environment.NewLine, " ");
+					if (line != "")
 					{
-						items.Add(item);
-						Items.Add(item);
+						FontItem item = FontItem.ImportChar(line, verticalDataOrientation,
+								logoEditor.SignWidth, logoEditor.SignHeight, logoEditor.Colors);
+						if (item != null)
+						{
+							items.Add(item);
+							Items.Add(item);
+						}
 					}
 				}
 			}
