@@ -461,7 +461,7 @@
             0,
             0});
 			this.nudLimit.Minimum = new decimal(new int[] {
-            1,
+            0,
             0,
             0,
             0});

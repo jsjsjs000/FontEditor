@@ -53,6 +53,7 @@ namespace FontEditor
 			string Chars = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ";
 			Chars += "ąćęłńóśżźĄĆĘŁŃÓŚŻŹ";
 			tbGenerateChars.Text = Chars;
+			nudLimit.Value = 0;
 
 			this.MinimumSize = new Size(this.Width, this.Height);
 		}

@@ -58,16 +58,23 @@ namespace FontEditor
 			graphics.FillRectangle(Brushes.Black, 0, 0, bitmap.Width, bitmap.Height);
 			graphics.DrawString(c.ToString(), font, Brushes.White, offset);
 
+			int colorsLength = 256 / logoEditor.Colors;
+
 			for (int y = 0; y < logoEditor.SignHeight; y++)
 				for (int x = 0; x < logoEditor.SignWidth; x++)
 					if (logoEditor.Colors == 2)
 					{
-						if (bitmap.GetPixel(x, y).R >= limit)
+						if (bitmap.GetPixel(x, y).R > limit)
 							item.data[x, y] = 1;
 					}
 					else
 					{
-						item.data[x, y] = (byte)(bitmap.GetPixel(x, y).R / logoEditor.Colors);
+						int in_ = bitmap.GetPixel(x, y).R;
+						int out_ = in_ * 256 / (256 - limit);
+						out_ = Math.Max(0, out_);
+						out_ = Math.Min(out_, 255);
+
+						item.data[x, y] = (byte)Math.Max(0, out_ / colorsLength);
 					}
 
 			TrimCharLeft(item);

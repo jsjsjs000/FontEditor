@@ -137,7 +137,7 @@ namespace FontEditor
 					{
 						if (GetPixel2(x, y))
 							data_[i] |= (byte)(1 << (x % 8));
-						if (x % 8 == 7)
+						if (x % 8 == 8 - 1)
 							i++;
 					}
 			}
