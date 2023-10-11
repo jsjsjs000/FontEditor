@@ -24,10 +24,8 @@ namespace FontEditor
 			nudWidth.Value = 16;
 			nudHeight.Value = 16;
 			cbColors.Items.Add(new ComboBoxItem(2, "2"));
-			//cbColors.Items.Add(new ComboBoxItem(4, "4"));
-			//cbColors.Items.Add(new ComboBoxItem(8, "8"));
 			cbColors.Items.Add(new ComboBoxItem(16, "16"));
-			cbColors.SelectedIndex = 0; // $$
+			cbColors.SelectedIndex = 1;
 
 			logoEditor.SetFontItem(new FontItem());
 			logoEditor.ButtonClearText = "Clear";
@@ -56,8 +54,7 @@ namespace FontEditor
 			Chars += "ąćęłńóśżźĄĆĘŁŃÓŚŻŹ";
 			tbGenerateChars.Text = Chars;
 
-			//this.MinimumSize = new Size(this.Width, this.Height);
-			//this.MaximumSize = new Size(this.Width, ushort.MaxValue);
+			this.MinimumSize = new Size(this.Width, this.Height);
 		}
 
 		void ClearAll()
@@ -191,31 +188,7 @@ namespace FontEditor
 
 		private void ButtonSaveAll_Click(object sender, EventArgs e)
 		{
-			bool python = cbPythonMode.Checked;
-			bool brackets = cbArrayBrackets.Checked;
-
-			string s = "";
-			foreach (FontItem item in items)
-			{
-				s += "\t";
-				if (brackets && python)
-					s += "[ ";
-				if (brackets && !python)
-					s += "{ ";
-
-				string s_ = logoEditor.ExportChar(true, cbAddFontWidthAtEnd.Checked,
-						cbVerticalDataOrientation.Checked);
-				s += s_.Replace(Environment.NewLine, Environment.NewLine + "\t");
-
-				if (brackets && python)
-					s += " ]";
-				if (brackets && !python)
-					s += " }";
-				if (cbPythonMode.Checked)
-					s += ", # " + item.name + Environment.NewLine;
-				else
-					s += ", // " + item.name + Environment.NewLine;
-			}
+			string s = ExportAll(cbArrayBrackets.Checked, cbPythonMode.Checked);
 
 			try
 			{
@@ -252,17 +225,12 @@ namespace FontEditor
 					(byte)nudLimit.Value, tbGenerateChars.Text);
 
 			canUpdateControls = true;
-			//if (i >= 0 && i < listBox.Items.Count) $$
-			//	listBox.SelectedIndex = i;
-			//else if (listBox.Items.Count > 0)
-			//listBox.SelectedIndex = listBox.Items.Count - 1;
+			if (i >= 0 && i < listBox.Items.Count)
+				listBox.SelectedIndex = i;
+			else if (listBox.Items.Count > 0)
+				listBox.SelectedIndex = listBox.Items.Count - 1;
 
 			listBox.SelectedIndex = 19;
 		}
 	}
 }
-
-/*
-	ilość kolorów 16 kolorów z krzywą gammy
-	button - interpolacja przy zapisie znaku
-*/

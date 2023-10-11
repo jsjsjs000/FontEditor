@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
@@ -239,6 +238,7 @@ namespace FontEditor
 					else
 						SetPixel(x, y, (byte)(Colors - 1 - GetPixel(x, y)));
 				}
+
       UpdatePreview();
     }
 
@@ -316,89 +316,12 @@ namespace FontEditor
 			UpdatePreview();
     }
 
-		public string ExportChar(bool divide, bool addFontWidthAtEnd, bool verticalDataOrientation)
-		{
-			byte[] data_ = new byte[0];
-			if (Colors == 16)
-			{
-				data_ = new byte[SignWidth * 8 / Colors * SignHeight];
-				int i = 0;
-				for (int y = 0; y < SignHeight; y++)
-					for (int x = 0; x < SignWidth; x += 2)
-					{
-						byte c1 = GetPixel(x, y);
-						byte c2 = GetPixel(x + 1, y);
-						data_[i++] = (byte)((c1 << 4) | c2);
-					}
-			}
-			else if (Colors == 2)
-			{
-				data_ = new byte[SignWidth / 8 * SignHeight];
-				int i = 0;
-				for (int y = 0; y < SignHeight; y++)
-					for (int x = 0; x < SignWidth; x++)
-					{
-						if (GetPixel2(x, y))
-							data_[i] |= (byte)(1 << (x % 8));
-						if (x % 8 == 7)
-							i++;
-					}
-			}
-
-			//int height = Sign.SignHeight;
-			//if (verticalDataOrientation)
-			//{
-			//  byte[] vdata = new byte[data.Length];
-			//  for (int x = 0; x < Sign.SignHeight; x++)
-			//    for (int y = 0; y < Sign.SignWidth; y++)
-			//      if (Sign.SignWidth - y - 1 >= 0)
-			//    {
-			//      bool bit = (data_[x] & (1UL << y)) != 0;
-			//      vdata[Sign.SignWidth - y - 1] |= (byte)((bit ? 1UL : 0UL) << x);
-			//    }
-			//  data_ = vdata;
-			//  height = Sign.SignWidth;
-			//}
-
-			string s = Common.ArrayToHexString(data_, divide, data_.Length, 2);
-			//if (SignWidth <= 8)
-			//  s = Common.ArrayToHexString(data_, divide, SignHeight, 2);
-			//else if (SignWidth <= 16)
-			//  s = Common.ArrayToHexString(data_, divide, SignHeight, 4);
-			//else
-			//s = Common.ArrayToHexString(data_, divide, SignHeight, 8);
-			//int effectiveWidth = 0;
-			//for (int y = 0; y < SignHeight; y++)
-				//for (int x = SignWidth - 1; x >= 0; x--)
-					//if ((data_[y] & (1UL << x)) != 0)
-						//effectiveWidth = Math.Max(effectiveWidth, (SignWidth - x));
-
-			//string s;
-			//if (Sign.SignWidth <= 8)
-			//  s = Common.ArrayToHexString(data_, divide, height, 2);
-			//else if (Sign.SignWidth <= 16)
-			//  s = Common.ArrayToHexString(data_, divide, height, 4);
-			//else
-			//  s = Common.ArrayToHexString(data_, divide, height, 8);
-			int effectiveWidth = 0;
-			for (int y = 0; y < SignHeight; y++)
-			  for (int x = SignWidth - 1; x >= 0; x--)
-			    if ((data_[y] & (1UL << x)) != 0)
-			      effectiveWidth = Math.Max(effectiveWidth, SignWidth - x);
-
-			//if (addFontWidthAtEnd && Sign.SignWidth <= 8)
-			//  s += ", 0x" + effectiveWidth.ToString("x2");
-			//if (addFontWidthAtEnd && Sign.SignWidth > 8)
-			//s += ", 0x" + effectiveWidth.ToString("x4");
-
-			return s;
-		}
-
 		public void CopyToClipboard(bool addFontWidthAtEnd, bool verticalDataOrientation)
     {
       try
       {
-				string s = ExportChar(true, addFontWidthAtEnd, verticalDataOrientation);
+				string s = fontItem.ExportChar(SignWidth, SignHeight, Colors, true,
+						addFontWidthAtEnd, verticalDataOrientation, out _);
         Clipboard.SetText(s);
       }
       catch

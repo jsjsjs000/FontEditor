@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.IO.Compression;
 using System.Text;
 using System.Threading;
 
@@ -300,56 +297,6 @@ namespace FontEditor
       return t;
     }
 
-    //public static byte[,] HexStringToByteArray(string s)
-    //{
-    //  if (s.Length % 2 != 0)
-    //    return new byte[0, 0];
-
-    //  byte[,] result = new byte[s.Length / 2, 0]; // $$$
-    //  for (int i = 0; i < s.Length; i++)
-    //  {
-    //    byte a;
-    //    if (!byte.TryParse(s[i].ToString(), NumberStyles.HexNumber, CultureInfo.CurrentCulture, out a))
-    //      return new byte[0, 0];
-    //    //if (i % 2 == 0) $$$
-    //    //  result[i / 2] = (byte)(a << 4);
-    //    //else
-    //      //result[i / 2] |= a;
-    //  }
-
-    //  return result;
-    //}
-
-    //public static ushort[] HexStringToUshortArray(string s)
-    //{
-    //  List<ushort> array = new List<ushort>();
-    //  s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
-    //  string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-    //  foreach (string word in words)
-    //  {
-    //    ushort us;
-    //    if (!ParseIntOrHex(word, out us))
-    //      return new ushort[0];
-    //    array.Add(us);
-    //  }
-    //  return array.ToArray();
-    //}
-
-    //public static ulong[] HexStringToUlongArray(string s)
-    //{
-    //  List<ulong> array = new List<ulong>();
-    //  s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
-    //  string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-    //  foreach (string word in words)
-    //  {
-    //    ulong us;
-    //    if (!ParseULongOrHex(word, out us))
-    //      return new ulong[0];
-    //    array.Add(us);
-    //  }
-    //  return array.ToArray();
-    //}
-
 		public static byte[] HexStringToByteArray(string s)
 		{
 			List<byte> array = new List<byte>();
@@ -373,7 +320,6 @@ namespace FontEditor
 			s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
 			string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-			//int i = 0;
 			int x = 0;
 			int y = 0;
 			foreach (string word in words)
@@ -381,19 +327,11 @@ namespace FontEditor
 				if (!ParseByteOrHex(word, out byte a))
 					return new byte[0, 0];
 
-				//if (x % 2 == 0)
-				//	array[x / 2, y] = (byte)(a << 4);
-				//else
-				//array[x / 2, y] |= a;
 				array[x, y] = a;
 
 				x = (x + 1) % width;
 				if (x == 0)
 					y++;
-				//if (i % 2 == 0)
-				//  array[i / 2] = (byte)(a << 4);
-				//else
-				//array[i / 2] |= a;
 			}
 			return array;
 		}
@@ -428,20 +366,6 @@ namespace FontEditor
       return outArray;
     }
 
-    public static ushort[] ConvertToUshortArray(byte[] array)
-    {
-      ushort[] outArray = new ushort[array.Length / 2];
-      int j = 0;
-      for (int i = 0; i < array.Length; i += 2)
-      {
-        outArray[j] = array[i];
-        if (i + 1 < array.Length)
-          outArray[j] |= (ushort)(array[i + 1] << 8);
-        j++;
-      }
-      return outArray;
-    }
-
     public static List<byte> ConvertByteArrayToList(byte[] array, int from, int count)
     {
       List<byte> list = new List<byte>();
@@ -465,177 +389,6 @@ namespace FontEditor
         port = defaultPort;
         return true;
       }
-    }
-
-    public static DateTime GetPreviousMonth(DateTime dt)
-    {
-      return (new DateTime(dt.Date.Year, dt.Date.Month, 1)).AddSeconds(-1);
-    }
-
-    public static DateTime GetMonth(DateTime dt)
-    {
-      return (new DateTime(dt.Date.Year, dt.Date.Month, 1));
-    }
-
-    public static DateTime GetNextMonth(DateTime dt)
-    {
-      return (new DateTime(dt.Date.Year, dt.Date.Month, 1)).AddMonths(1);
-    }
-
-    public static bool IsTheSameMonth(DateTime dt1, DateTime dt2)
-    {
-      return dt1.Year == dt2.Year && dt1.Month == dt2.Month;
-    }
-
-    public static DateTime Min(DateTime dt1, DateTime dt2)
-    {
-      return (dt1 < dt2) ? dt1 : dt2;
-    }
-
-    public static DateTime Max(DateTime dt1, DateTime dt2)
-    {
-      return (dt1 > dt2) ? dt1 : dt2;
-    }
-
-    public static TimeSpan Min(TimeSpan dt1, TimeSpan dt2)
-    {
-      return (dt1 < dt2) ? dt1 : dt2;
-    }
-
-    public static TimeSpan Max(TimeSpan dt1, TimeSpan dt2)
-    {
-      return (dt1 > dt2) ? dt1 : dt2;
-    }
-
-    public static DateTime RoundDateTime10m(DateTime dt)
-    {
-      return new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute % 10, 0);
-    }
-
-    public static DateTime RoundDateTime1h(DateTime dt)
-    {
-      return new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0);
-    }
-
-    public static DateTime RoundDateTime1d(DateTime dt)
-    {
-      return new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
-    }
-
-    ///   tests:
-    /// DateTime from = new DateTime(2017, 9, 9); DateTime to = new DateTime(2017, 9, 20, 23, 59, 59);
-    /// DateTime from = new DateTime(2017, 9, 9); DateTime to = new DateTime(2017, 10, 20, 23, 59, 59);
-    /// DateTime from = new DateTime(2017, 9, 9); DateTime to = new DateTime(2017, 12, 20, 23, 59, 59);
-    /// DateTime from = new DateTime(2017, 9, 1); DateTime to = new DateTime(2017, 9, 30, 23, 59, 59);
-    /// DateTime from = new DateTime(2017, 9, 1); DateTime to = new DateTime(2017, 10, 31, 23, 59, 59);
-    /// List<List<DateTime>> months = Common.GetMonthsList(from, to);
-
-    public static List<List<DateTime>> GetMonthsList(DateTime from, DateTime to)
-    {
-      List<List<DateTime>> months = new List<List<DateTime>>();
-      DateTime dt = from;
-      DateTime dt2 = GetNextMonth(from).AddSeconds(-1);
-      do
-      {
-        if (IsTheSameMonth(from, dt))
-          months.Add(new List<DateTime>() { from, Min(to, dt2) });
-        else
-          months.Add(new List<DateTime>() { dt, Min(to, dt2) });
-
-        dt = GetNextMonth(dt);
-        dt2 = GetNextMonth(dt).AddSeconds(-1);
-      }
-      while (dt2 < to);
-
-      if (dt < Min(to, dt2))
-        months.Add(new List<DateTime>() { dt, Min(to, dt2) });
-
-      return months;
-    }
-
-
-    //public static string EncodeBZip2String(string s)
-    //{
-    //  MemoryStream msIn = new MemoryStream();
-    //  StreamWriter swIn = new StreamWriter(msIn);
-    //  swIn.Write(s);
-    //  swIn.Flush();
-    //  msIn.Position = 0;
-    //  MemoryStream msOut = new MemoryStream();
-    //  BZip2.Compress(msIn, msOut, false, 9);
-    //  msOut.Position = 0;
-    //  byte[] dataOut = new byte[msOut.Length];
-    //  msOut.Read(dataOut, 0, (int)msOut.Length);
-    //  return Convert.ToBase64String(dataOut);
-    //}
-
-    //public static string DecodeBZip2String(string s)
-    //{
-    //  byte[] dataIn = Convert.FromBase64String(s);
-    //  MemoryStream msIn = new MemoryStream();
-    //  msIn.Write(dataIn, 0, dataIn.Length);
-    //  msIn.Flush();
-    //  msIn.Position = 0;
-    //  MemoryStream msOut = new MemoryStream();
-    //  BZip2.Decompress(msIn, msOut, false);
-    //  msOut.Position = 0;
-    //  StreamReader srOut = new StreamReader(msOut);
-    //  return srOut.ReadToEnd();
-    //}
-
-    //public static string EncodeGZipString(string text)
-    //{
-    //  byte[] buffer = Encoding.UTF8.GetBytes(text);
-    //  MemoryStream ms = new MemoryStream();
-    //  using (GZipStream zip = new GZipStream(ms, CompressionMode.Compress, true))
-    //    zip.Write(buffer, 0, buffer.Length);
-
-    //  byte[] compressed = new byte[ms.Length];
-    //  ms.Position = 0;
-    //  ms.Read(compressed, 0, (int)ms.Length);
-    //  return Convert.ToBase64String(compressed);
-    //}
-
-    //public static string DecodeGZipString(string s)
-    //{
-    //  byte[] data = Convert.FromBase64String(s);
-    //  MemoryStream ms = new MemoryStream(data);
-    //  using (GZipStream zip = new GZipStream(ms, CompressionMode.Decompress))
-    //  {
-    //    int readBytes = 64 * 1;
-    //    byte[] buffer = new byte[readBytes];
-    //    int totalCount = 0;
-    //    int count = 0;
-    //    while ((count = zip.Read(buffer, totalCount, readBytes)) > 0)
-    //    {
-    //      totalCount += count;
-    //      if (count < readBytes)
-    //        break;
-    //      Array.Resize(ref buffer, buffer.Length + readBytes);
-    //    }
-    //    if (buffer.Length != totalCount)
-    //      Array.Resize(ref buffer, totalCount);
-    //    return Encoding.UTF8.GetString(buffer);
-    //  }
-    //}
-
-    static Stopwatch stopwatch = System.Diagnostics.Stopwatch.StartNew();
-
-    public static void StartTimer()
-    {
-      stopwatch.Start();
-    }
-
-    public static long StopTimerAndGetTicks()
-    {
-      long a = stopwatch.ElapsedTicks;
-      stopwatch.Start();
-      return a;
-    }
-
-    public static long GetTicks()
-    {
-      return Environment.TickCount;
     }
 
     public static void SetDateFormat()
