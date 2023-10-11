@@ -230,8 +230,6 @@ namespace FontEditor
 				listBox.SelectedIndex = i;
 			else if (listBox.Items.Count > 0)
 				listBox.SelectedIndex = listBox.Items.Count - 1;
-
-			listBox.SelectedIndex = 19;
 		}
 	}
 }
