@@ -313,9 +313,6 @@ namespace FontEditor
 
 		public static byte[,] HexStringToByteArray(string s, int width, int height)
 		{
-		  if (s.Length % 2 != 0)
-		    return new byte[0, 0];
-
 			byte[,] array = new byte[width, height];
 			s = s.Replace(",", " ").Replace("\r", " ").Replace("\n", " ");
 			string[] words = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
